@@ -90,7 +90,7 @@ public class Activity_Login extends AppCompatActivity {
 
 
     private void updateUI(FirebaseUser user) {
-
+        Log.d("Activity_Login", "updateUI: " + user);
     }
 
 
