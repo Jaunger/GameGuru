@@ -38,6 +38,10 @@ public class Activity_Login extends AppCompatActivity {
 
     private void initView() {
         loginButton.setOnClickListener(view -> {
+            if(loginEmail.getText().toString().isEmpty() || loginPassword.getText().toString().isEmpty()){
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
             signIn(loginEmail.getText().toString(), loginPassword.getText().toString());
         });
         registerRedirect.setOnClickListener((view) -> {
