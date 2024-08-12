@@ -6,4 +6,21 @@
     </style>
 
     <style name="Theme.GameGuru" parent="Base.Theme.GameGuru" />
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="halfCircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">36%</item>
+    </style>
+
+    <style name="bigRoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">25dp</item>
+    </style>
+
+
 </resources>

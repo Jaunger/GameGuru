@@ -36,6 +36,8 @@ public class Activity_Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
+       // overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
+
         mAuth = FirebaseAuth.getInstance();
         findViews();
         initView();

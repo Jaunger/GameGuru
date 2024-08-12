@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+
     android:gravity="center"
     android:background="@android:color/holo_blue_light">
 
@@ -31,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="Email"
-        app:boxStrokeColor="@android:color/white"
+        app:boxStrokeColor="@android:color/black"
         app:boxBackgroundMode="outline"
         >
 
@@ -39,6 +40,7 @@
             android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:background="@drawable/custom_edittext"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -47,8 +49,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+
         android:hint="Password"
-        app:boxStrokeColor="@android:color/white"
+        app:boxStrokeColor="@android:color/black"
         app:boxBackgroundMode="outline"
         app:endIconMode="password_toggle">
 
@@ -56,6 +59,7 @@
             android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:inputType="textPassword"
             android:background="@drawable/custom_edittext"
 
@@ -68,7 +72,7 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:textStyle="bold"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:backgroundTint="@android:color/holo_orange_dark"
         android:padding="12dp"
         android:background="@drawable/custom_button"/>

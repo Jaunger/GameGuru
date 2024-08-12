@@ -26,11 +26,14 @@ public class Activity_Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+     //   overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
+
         findViews();
         initView();
 
         mAuth = FirebaseAuth.getInstance();
     }
+
 
     private void initView() {
         loginButton.setOnClickListener(view -> {
@@ -66,6 +69,9 @@ public class Activity_Login extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d("Activity_Login", "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
+                        Intent intent = new Intent(this, Activity_Profile.class);
+                        startActivity(intent);
+                        finish();
                         updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
