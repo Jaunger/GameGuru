@@ -21,6 +21,11 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">25dp</item>
     </style>
-
+    <style name="Theme.GameGuru.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primaryColor</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_app</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item> <!-- Duration in milliseconds -->
+        <item name="postSplashScreenTheme">@style/Theme.GameGuru</item> <!-- Your main app theme -->
+    </style>
 
 </resources>

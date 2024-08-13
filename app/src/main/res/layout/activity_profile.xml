@@ -1,183 +1,154 @@
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    >
 
     <!-- Profile Header -->
     <RelativeLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/primaryColor"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
         <!-- Profile Picture -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            app:srcCompat="@drawable/ic_app"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_app"
             android:contentDescription="Profile Picture"
             app:shapeAppearanceOverlay="@style/circleImageView"/>
 
-        <!-- User Name -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/userName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/profileImage"
-            android:layout_alignTop="@id/profileImage"
-            android:layout_marginStart="16dp"
-            android:text="Sophie Taylor"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"/>
-
-        <!-- Follower Info -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/userInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/profileImage"
-            android:layout_below="@id/userName"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="2,329 followers • Joined 2020"
-            android:textSize="14sp"
-            android:textColor="@android:color/white"/>
-
-        <!-- Settings Icon -->
+        <!-- Edit Icon -->
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/settingsButton"
+            android:id="@+id/editProfileButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
+            android:layout_alignTop="@id/profileImage"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_settings"
-            android:contentDescription="Settings"/>
+            android:src="@drawable/ic_edit"
+            app:tint="@android:color/black"
+            android:contentDescription="Edit Profile"/>
     </RelativeLayout>
 
-    <!-- Main Content -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+    <!-- User Name -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:text="Khun Marco Asensio"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
+
+    <!-- Followers and Following -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:gravity="center_horizontal">
 
-            <!-- Add icon for follow/unfollow -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/followButton"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/followersCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Follow"
+                android:text="20K"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:cornerRadius="24dp"
-                app:icon="@drawable/ic_create"
-                app:backgroundTint="@color/primaryDarkColor"/>
+                android:textColor="@android:color/black"/>
 
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginVertical="16dp"
-                android:background="@android:color/darker_gray"/>
-
-            <!-- Section Title: My Guides -->
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myGuidesTitle"
+                android:id="@+id/followersLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My Guides"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="8dp"/>
-
-            <!-- Guide List (Placeholder) -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/ic_app"
-                        android:contentDescription="Guide Image"/>
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:text="Guide Title"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black"/>
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/settingsMore"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_more_vert"
-                        android:contentDescription="More Options"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Repeat for Additional Guides -->
-            <!-- Add a button or link to view all guides -->
-
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginVertical="16dp"
-                android:background="@android:color/darker_gray"/>
-
-            <!-- Additional Profile Options -->
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/settingsOption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Settings"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/logoutOption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Log Out"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"/>
+                android:text="Followers"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
-    </ScrollView>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:background="@android:color/darker_gray"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/followingCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="350"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/followingLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Following"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!-- Enlarged Description Section -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/white"
+        android:layout_marginHorizontal="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/userDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is a short description or bio for the user. It can include details about their interests, expertise, or any other relevant information."
+            android:textSize="16sp"
+
+            android:textColor="@android:color/black"/> <!-- Ensuring the text color contrasts with the background -->
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- My Guides Section -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/myGuidesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="My Guides"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:textColor="@android:color/black"/>
+
+    <!-- Guides Fragment Container -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/guideListFragment"
+        android:name="com.daniel.gameguru.Fragments.GuideListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:layout="@layout/fragment_guide_list" />
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -189,6 +160,5 @@
         app:itemIconTint="@color/navigation_icon_color"
         app:itemTextColor="@color/navigation_text_color"
         android:background="?android:attr/windowBackground"
-
-        />
+        app:labelVisibilityMode="unlabeled"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

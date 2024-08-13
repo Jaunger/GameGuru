@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:id="@+id/registerParent"
     android:gravity="center"
     android:background="@android:color/holo_blue_light">
 

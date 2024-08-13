@@ -1,9 +1,10 @@
-package com.daniel.gameguru;
+package com.daniel.gameguru.Entities;
 
 public class User {
     private String id;
     private String name;
     private String email;
+    private String description;
     private String image;
 
     public User() {}
@@ -18,6 +19,15 @@ public class User {
 
     public User setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public User setDescription(String description) {
+        this.description = description;
         return this;
     }
 

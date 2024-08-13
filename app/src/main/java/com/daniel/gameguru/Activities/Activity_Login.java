@@ -1,16 +1,23 @@
-package com.daniel.gameguru;
+package com.daniel.gameguru.Activities;
+
+import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.splashscreen.SplashScreen;
 
 
+import com.daniel.gameguru.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,10 +30,14 @@ public class Activity_Login extends AppCompatActivity {
     private AppCompatTextView registerRedirect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+        setupUI(findViewById(R.id.loginParent));
      //   overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
+
+        splashScreen.setKeepOnScreenCondition(() -> false);
 
         findViews();
         initView();
@@ -34,6 +45,19 @@ public class Activity_Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    public void setupUI(View view) {
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(Activity_Login.this);
+                    v.clearFocus();
+                    return false;
+                }
+            });
+        }
+
+    }
 
     private void initView() {
         loginButton.setOnClickListener(view -> {

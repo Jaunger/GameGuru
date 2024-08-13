@@ -72,7 +72,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation (libs.material.v120)
     implementation(libs.glide)
-
+    implementation (libs.androidx.core.splashscreen)
+    implementation(libs.firebase.storage)
 
     
 

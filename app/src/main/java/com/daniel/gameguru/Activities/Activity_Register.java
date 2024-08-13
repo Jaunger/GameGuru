@@ -1,8 +1,13 @@
-package com.daniel.gameguru;
+package com.daniel.gameguru.Activities;
+
+import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.AppCompatButton;
+
+import com.daniel.gameguru.R;
+import com.daniel.gameguru.Entities.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -36,6 +44,7 @@ public class Activity_Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
+        setupUI(findViewById(R.id.registerParent));
        // overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
 
         mAuth = FirebaseAuth.getInstance();
@@ -44,6 +53,19 @@ public class Activity_Register extends AppCompatActivity {
 
     }
 
+    public void setupUI(View view) {
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(Activity_Register.this);
+                    v.clearFocus();
+                    return false;
+                }
+            });
+        }
+
+    }
     private void initView() {
         registerButton.setOnClickListener(view -> {
             if(registerEmail.getText().toString().isEmpty() || registerPassword.getText().toString().isEmpty() || registerName.getText().toString().isEmpty()){

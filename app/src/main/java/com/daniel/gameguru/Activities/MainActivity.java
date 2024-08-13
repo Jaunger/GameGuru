@@ -1,9 +1,11 @@
-package com.daniel.gameguru;
+package com.daniel.gameguru.Activities;
 
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.daniel.gameguru.R;
 
 
 public class MainActivity extends AppCompatActivity {
