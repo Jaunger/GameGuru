@@ -2,7 +2,6 @@ package com.daniel.gameguru.Activities;
 
 import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,14 +9,17 @@ import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daniel.gameguru.Entities.Guide;
 import com.daniel.gameguru.GuideAdapter;
 import com.daniel.gameguru.R;
+import com.daniel.gameguru.Utilities.NavigationBarManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,18 +30,22 @@ public class Activity_Home extends AppCompatActivity {
     private RecyclerView recentlyViewedGuidesRecycler;
     private RecyclerView popularGuidesRecycler;
     private BottomNavigationView bottomNavigationView;
-
-
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) { //TODO: maybe remove search bar and head an Hello, UserName
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+        overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         setupUI(findViewById(R.id.homeParent));
         findViews();
         initView();
-
     }
 
     public void setupUI(View view) {
@@ -55,6 +61,7 @@ public class Activity_Home extends AppCompatActivity {
         }
 
     }
+
     private void findViews() {
         featuredGuidesRecycler = findViewById(R.id.featured_guides_recycler);
         recentlyViewedGuidesRecycler = findViewById(R.id.recently_viewed_guides_recycler);
@@ -62,37 +69,25 @@ public class Activity_Home extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
     }
 
-
     private void initView() {
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        // Setup bottom navigation
+        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
+        NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_home);
 
-        // Set up the recycler views
+        // Set up the recycler views with horizontal scrolling
         featuredGuidesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        featuredGuidesRecycler.setAdapter(new GuideAdapter(new ArrayList<Guide>()));
-
         recentlyViewedGuidesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recentlyViewedGuidesRecycler.setAdapter(new GuideAdapter(new ArrayList<Guide>()));
-
         popularGuidesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        popularGuidesRecycler.setAdapter(new GuideAdapter(new ArrayList<Guide>()));
 
+        // Set adapters with dummy data
         featuredGuidesRecycler.setAdapter(new GuideAdapter(getDummyData()));
         recentlyViewedGuidesRecycler.setAdapter(new GuideAdapter(getDummyData()));
         popularGuidesRecycler.setAdapter(new GuideAdapter(getDummyData()));
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int curItem = item.getItemId();
-            if(curItem == R.id.navigation_home){
-                return true;
-            } else if (curItem == R.id.navigation_account) {
-                startActivity(new Intent(Activity_Home.this, Activity_Profile.class));
-                overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
-                finish();
-                return true;
-            }
-            return true;
-        });
+        // Optionally, you can remove the dummy data and replace it with real data fetched from Firestore or your backend.
+        loadGuidesFromFirestore(); // Uncomment this to load real data from Firestore
     }
+
     private List<Guide> getDummyData() {
         // Generate dummy data for example purposes
         List<Guide> guides = new ArrayList<>();
@@ -100,5 +95,33 @@ public class Activity_Home extends AppCompatActivity {
         guides.add(new Guide("Guide 2", "https://example.com/guide2.jpg"));
         guides.add(new Guide("Guide 3", "https://example.com/guide3.jpg"));
         return guides;
+    }
+
+    private void loadGuidesFromFirestore() {
+        // Example of loading real data from Firestore (this could be adjusted based on your Firestore structure)
+        db.collection("guides").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<Guide> guides = new ArrayList<>();
+                task.getResult().forEach(document -> {
+                    Guide guide = document.toObject(Guide.class);
+                    guides.add(guide);
+                });
+                featuredGuidesRecycler.setAdapter(new GuideAdapter(guides)); // Replace the dummy data
+                recentlyViewedGuidesRecycler.setAdapter(new GuideAdapter(guides));
+                popularGuidesRecycler.setAdapter(new GuideAdapter(guides));
+            } else {
+                // Handle the error appropriately
+            }
+        });
+    }
+
+    // Optionally, you can include a welcome message or greeting based on the user's name
+    private void greetUser() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String userName = user.getDisplayName();
+            // Display a welcome message, e.g., "Hello, John!"
+            // You can set this message in a TextView or similar UI element in your layout.
+        }
     }
 }

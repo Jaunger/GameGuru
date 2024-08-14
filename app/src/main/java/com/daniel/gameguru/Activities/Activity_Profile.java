@@ -13,14 +13,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 
 import com.bumptech.glide.Glide;
 import com.daniel.gameguru.Fragments.GuideListFragment;
 import com.daniel.gameguru.Utilities.DbManager;
 import com.daniel.gameguru.R;
+import com.daniel.gameguru.Utilities.NavigationBarManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +27,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,49 +42,45 @@ public class Activity_Profile extends AppCompatActivity {
     private GuideListFragment guideListFragment;
     private AppCompatImageButton editProfileButton;
 
-
-
-
-
+    private FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
+        overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
+
+        firestore = FirebaseFirestore.getInstance(); // Initialize Firestore
 
         findViews();
         initViews();
-        setupGuideListFragment();
         updateUI(); //todo: USER image and name arent on the same id
 
     }
 
+    private void findViews() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        profileImage = findViewById(R.id.profileImage);
+        userName = findViewById(R.id.userName);
+        userDescription = findViewById(R.id.userDescription);
+        editProfileButton = findViewById(R.id.editProfileButton);
+    }
+
     private void initViews() {
-        bottomNavigationView.setSelectedItemId(R.id.navigation_account);
+        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
+        NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_account);
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int curItem = item.getItemId();
-            if(curItem == R.id.navigation_home){
-                startActivity(new Intent(Activity_Profile.this ,Activity_Home.class));
-                overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
-                finish();
-                return true;
-            } else if (curItem == R.id.navigation_account) {
-
-                return true;
-            }
-            return true;
-        });
 
         editProfileButton.setOnClickListener(v -> editImage());
-
     }
+
     private void editImage() {
         pickMedia.launch(new PickVisualMediaRequest.Builder()
                 .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                 .build());
     }
+
     ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 if (uri != null) {
@@ -103,57 +99,50 @@ public class Activity_Profile extends AppCompatActivity {
         UploadTask uploadTask = imageRef.putFile(uri);
 
         // Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(Activity_Profile.this, "Failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        String imageUrl = task.getResult().toString();
-                        DbManager.updateUserImage(imageUrl, res -> updateUI());
-                    }
-                });
-            }
-        });
-    }
-    private void setupGuideListFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        guideListFragment = new GuideListFragment();
-        fragmentTransaction.replace(R.id.guideListFragment, guideListFragment);
-        fragmentTransaction.commit();
+        uploadTask.addOnFailureListener(exception ->
+                        Toast.makeText(Activity_Profile.this, "Failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(taskSnapshot ->
+                        imageRef.getDownloadUrl().addOnCompleteListener(task -> {
+                            String imageUrl = task.getResult().toString();
+                            updateUserImageInFirestore(imageUrl);
+                        }));
     }
 
-    private void findViews() {
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        profileImage = findViewById(R.id.profileImage);
-        userName = findViewById(R.id.userName);
-        userDescription = findViewById(R.id.userDescription);
-        editProfileButton = findViewById(R.id.editProfileButton);
+    private void updateUserImageInFirestore(String imageUrl) {
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DocumentReference userDocRef = firestore.collection("users").document(userUid);
+
+        userDocRef.update("image", imageUrl)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(Activity_Profile.this, "Profile image updated!", Toast.LENGTH_SHORT).show();
+                    updateUI();
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(Activity_Profile.this, "Error updating profile image: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
 
     private void updateUI() {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DocumentReference userDocRef = firestore.collection("users").document(userUid);
 
-        DbManager.getUserImage(imageUrl -> {
-            Glide.with(Activity_Profile.this)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.img_white)
-                    .centerCrop()
-                    .into(profileImage);
-        });
-        DbManager.getUserName(userUid,name -> {
-            Log.d("UserName", "123");
-            userName.setText(name);
-        });
+        userDocRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult() != null) {
+                    String imageUrl = task.getResult().getString("image");
+                    String name = task.getResult().getString("name");
 
+                    Glide.with(Activity_Profile.this)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.img_white)
+                            .centerCrop()
+                            .into(profileImage);
+
+                    userName.setText(name);
+                }
+            } else {
+                Log.d("Firestore", "Error getting documents: ", task.getException());
+            }
+        });
     }
 }

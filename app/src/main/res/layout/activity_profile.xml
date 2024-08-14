@@ -156,7 +156,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation_menu"
         app:itemIconTint="@color/navigation_icon_color"
         app:itemTextColor="@color/navigation_text_color"
         android:background="?android:attr/windowBackground"

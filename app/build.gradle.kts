@@ -68,13 +68,12 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
     implementation (libs.material.v120)
     implementation(libs.glide)
     implementation (libs.androidx.core.splashscreen)
     implementation(libs.firebase.storage)
-
+    implementation (libs.firebase.firestore)
     
 
 

@@ -16,7 +16,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.splashscreen.SplashScreen;
 
-
 import com.daniel.gameguru.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +27,7 @@ public class Activity_Login extends AppCompatActivity {
     private TextInputEditText loginEmail, loginPassword;
     private AppCompatButton loginButton;
     private AppCompatTextView registerRedirect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
@@ -35,7 +35,6 @@ public class Activity_Login extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
         setupUI(findViewById(R.id.loginParent));
-     //   overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
 
         splashScreen.setKeepOnScreenCondition(() -> false);
 
@@ -61,13 +60,14 @@ public class Activity_Login extends AppCompatActivity {
 
     private void initView() {
         loginButton.setOnClickListener(view -> {
-            if(loginEmail.getText().toString().isEmpty() || loginPassword.getText().toString().isEmpty()){
+            if (loginEmail.getText().toString().isEmpty() || loginPassword.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
             signIn(loginEmail.getText().toString(), loginPassword.getText().toString());
         });
-        registerRedirect.setOnClickListener((view) -> {
+
+        registerRedirect.setOnClickListener(view -> {
             Intent intent = new Intent(this, Activity_Register.class);
             startActivity(intent);
             finish();
@@ -78,53 +78,54 @@ public class Activity_Login extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
+        /* //TODO: fix
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             reload();
         }
+
+         */
     }
 
-
     private void signIn(String email, String password) {
-        // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d("Activity_Login", "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Intent intent = new Intent(this, Activity_Profile.class);
+                        Intent intent = new Intent(this, Activity_Home.class);
                         startActivity(intent);
                         finish();
                         updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("Activity_Login", "signInWithEmail:failure", task.getException());
-                        Toast.makeText(Activity_Login.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
                 });
-        // [END sign_in_with_email]
     }
 
-    private void findViews(){
+    private void findViews() {
         loginEmail = findViewById(R.id.loginEmail);
         loginPassword = findViewById(R.id.loginPassword);
         loginButton = findViewById(R.id.loginButton);
         registerRedirect = findViewById(R.id.registerRedirect);
     }
 
-
-
-
-
     private void updateUI(FirebaseUser user) {
-        Log.d("Activity_Login", "updateUI: " + user);
+        if (user != null) {
+            Log.d("Activity_Login", "User signed in: " + user.getUid());
+            // You can further update UI elements here, such as showing user-specific info
+        } else {
+            Log.d("Activity_Login", "User sign-in failed or signed out.");
+        }
     }
 
-
-
-    private void reload() { }
-
+    private void reload() {
+        Intent intent = new Intent(this, Activity_Profile.class);
+        startActivity(intent);
+        finish();
+    }
 }
