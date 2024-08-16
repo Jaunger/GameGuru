@@ -49,7 +49,6 @@ public class Activity_Home extends AppCompatActivity {
     }
 
     public void setupUI(View view) {
-        // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
@@ -70,35 +69,21 @@ public class Activity_Home extends AppCompatActivity {
     }
 
     private void initView() {
-        // Setup bottom navigation
         NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_home);
 
-        // Set up the recycler views with horizontal scrolling
         featuredGuidesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recentlyViewedGuidesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         popularGuidesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        // Set adapters with dummy data
-        featuredGuidesRecycler.setAdapter(new GuideAdapter(getDummyData()));
-        recentlyViewedGuidesRecycler.setAdapter(new GuideAdapter(getDummyData()));
-        popularGuidesRecycler.setAdapter(new GuideAdapter(getDummyData()));
 
-        // Optionally, you can remove the dummy data and replace it with real data fetched from Firestore or your backend.
+
         loadGuidesFromFirestore(); // Uncomment this to load real data from Firestore
     }
 
-    private List<Guide> getDummyData() {
-        // Generate dummy data for example purposes
-        List<Guide> guides = new ArrayList<>();
-        guides.add(new Guide("Guide 1", "https://example.com/guide1.jpg"));
-        guides.add(new Guide("Guide 2", "https://example.com/guide2.jpg"));
-        guides.add(new Guide("Guide 3", "https://example.com/guide3.jpg"));
-        return guides;
-    }
+
 
     private void loadGuidesFromFirestore() {
-        // Example of loading real data from Firestore (this could be adjusted based on your Firestore structure)
         db.collection("guides").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 List<Guide> guides = new ArrayList<>();
@@ -120,8 +105,7 @@ public class Activity_Home extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             String userName = user.getDisplayName();
-            // Display a welcome message, e.g., "Hello, John!"
-            // You can set this message in a TextView or similar UI element in your layout.
+
         }
     }
 }

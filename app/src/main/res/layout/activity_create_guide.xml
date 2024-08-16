@@ -1,0 +1,235 @@
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/createGuideParent"
+    android:background="@android:color/white">
+
+    <!-- ScrollView to wrap the content from title to RichTextEditor -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Back Button and Title -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pageTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Create guide"
+                    android:textSize="24sp"
+                    android:textColor="@color/primaryTextColor"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <!-- Title Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/guideTitleInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Add a title"
+                    android:inputType="text"
+                    android:textColor="@color/primaryTextColor"
+                    android:backgroundTint="@color/primaryColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Game Name Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/gameNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select game"
+                    android:inputType="text"
+                    android:textColor="@color/primaryTextColor"
+                    android:backgroundTint="@color/primaryColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Category Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/categoryInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select category"
+                    android:inputType="text"
+                    android:textColor="@color/primaryTextColor"
+                    android:backgroundTint="@color/primaryColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Formatting Toolbar (Scrollable) -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:scrollbars="horizontal"
+                android:background="@color/toolbarBackgroundColor">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Bold -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/action_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="B"
+                        android:textStyle="bold"
+                        android:backgroundTint="@color/primaryColor"
+                        android:textColor="@android:color/white" />
+
+                    <!-- Italic -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/action_italic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="I"
+                        android:textStyle="italic"
+                        android:backgroundTint="@color/primaryColor"
+                        android:textColor="@android:color/white" />
+
+                    <!-- Underline -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/action_underline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="U"
+                        android:backgroundTint="@color/primaryColor"
+                        android:textColor="@android:color/white" />
+
+                    <!-- Text Color -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/action_text_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Color"
+                        android:backgroundTint="@color/primaryColor"
+                        android:textColor="@android:color/white" />
+
+                    <!-- Insert Image -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/action_insert_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Image"
+                        android:backgroundTint="@color/primaryColor"
+                        android:textColor="@android:color/white" />
+
+                    <!-- Insert Link -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/action_insert_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Link"
+                        android:backgroundTint="@color/primaryColor"
+                        android:textColor="@android:color/white" />
+
+                    <!-- Undo -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/action_undo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Undo"
+                        android:backgroundTint="@color/secondaryColor"
+                        android:textColor="@android:color/white" />
+
+                    <!-- Redo -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/action_redo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Redo"
+                        android:backgroundTint="@color/secondaryColor"
+                        android:textColor="@android:color/white" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </HorizontalScrollView>
+
+            <!-- Rich Text Editor -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp">
+
+                <jp.wasabeef.richeditor.RichEditor
+                    android:id="@+id/editor"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@android:color/white"
+                    android:padding="10dp"
+                    android:hint="Write your guide..."
+                    android:textColor="@color/primaryTextColor" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
+    <!-- Save as Draft and Publish Buttons -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:padding="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveAsDraftButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save as Draft"
+            android:backgroundTint="@color/secondaryColor"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/publishButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Publish"
+            android:backgroundTint="@color/primaryColor"
+            android:textColor="@android:color/white" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemIconTint="@color/navigation_icon_color"
+        app:itemTextColor="@color/navigation_text_color"
+        android:background="?android:attr/windowBackground"
+        app:labelVisibilityMode="unlabeled"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

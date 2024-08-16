@@ -78,13 +78,12 @@ public class Activity_Login extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        /* //TODO: fix
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             reload();
         }
 
-         */
+
     }
 
     private void signIn(String email, String password) {

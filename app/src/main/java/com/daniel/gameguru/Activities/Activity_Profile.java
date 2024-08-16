@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.daniel.gameguru.Fragments.GuideListFragment;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +43,7 @@ public class Activity_Profile extends AppCompatActivity {
     private MaterialTextView userDescription;
     private GuideListFragment guideListFragment;
     private AppCompatImageButton editProfileButton;
+    private MaterialButton logoutButton;
 
     private FirebaseFirestore firestore;
 
@@ -51,11 +54,15 @@ public class Activity_Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
 
-        firestore = FirebaseFirestore.getInstance(); // Initialize Firestore
+        firestore = FirebaseFirestore.getInstance();
+
+        FragmentManager manager = getSupportFragmentManager();
+        guideListFragment = new GuideListFragment();
+        manager.beginTransaction().replace(R.id.guideListFragment, guideListFragment).commit();
 
         findViews();
         initViews();
-        updateUI(); //todo: USER image and name arent on the same id
+        updateUI(); //todo: also update description
 
     }
 
@@ -65,11 +72,20 @@ public class Activity_Profile extends AppCompatActivity {
         userName = findViewById(R.id.userName);
         userDescription = findViewById(R.id.userDescription);
         editProfileButton = findViewById(R.id.editProfileButton);
+        logoutButton = findViewById(R.id.logoutButton);
     }
 
     private void initViews() {
         NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_account);
+        guideListFragment = new GuideListFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.guideListFragment, guideListFragment).commit();
+        logoutButton.setOnClickListener(v -> {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(Activity_Profile.this, Activity_Login.class);
+                    startActivity(intent);
+                    finish();
+                });
 
 
         editProfileButton.setOnClickListener(v -> editImage());
@@ -98,7 +114,6 @@ public class Activity_Profile extends AppCompatActivity {
 
         UploadTask uploadTask = imageRef.putFile(uri);
 
-        // Register observers to listen for when the download is done or if it fails
         uploadTask.addOnFailureListener(exception ->
                         Toast.makeText(Activity_Profile.this, "Failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show())
                 .addOnSuccessListener(taskSnapshot ->

@@ -25,4 +25,18 @@
 
     <!-- Color for dividers and borders -->
     <color name="dividerColor">#BDBDBD</color>
+    <color name="secondaryColor">#6C757D</color> <!-- Gray color for secondary buttons -->
+    <color name="primaryTextColor">#212529</color> <!-- Dark gray/black for text -->
+    <color name="toolbarBackgroundColor">#F8F9FA</color> <!-- Light gray for toolbar background -->
+
+    <!-- Additional Colors -->
+    <color name="errorColor">#DC3545</color> <!-- Red for error messages -->
+    <color name="successColor">#28A745</color> <!-- Green for success messages -->
+
+    <!-- Background Colors -->
+    <color name="cardBackgroundColor">#F2F3F5</color> <!-- Light gray for card backgrounds -->
+
+    <!-- Text Colors -->
+    <color name="textPrimary">#212121</color> <!-- Default primary text color -->
+    <color name="textSecondary">#757575</color> <!-- Default secondary text color -->
 </resources>

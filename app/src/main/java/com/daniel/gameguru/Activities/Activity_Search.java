@@ -56,11 +56,9 @@ public class Activity_Search extends AppCompatActivity {
         searchResults = new ArrayList<>();
         searchAdapter = new GuideAdapter(searchResults);
 
-        // Setting up RecyclerView with the adapter
         searchResultsRecycler.setLayoutManager(new LinearLayoutManager(this));
         searchResultsRecycler.setAdapter(searchAdapter);
 
-        // Setting up bottom navigation
         NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_search);
     }
@@ -88,7 +86,6 @@ public class Activity_Search extends AppCompatActivity {
     }
 
     public void setupUI(View view) {
-        // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {

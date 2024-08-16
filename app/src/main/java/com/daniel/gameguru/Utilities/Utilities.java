@@ -3,6 +3,8 @@ package com.daniel.gameguru.Utilities;
 import android.app.Activity;
 import android.view.inputmethod.InputMethodManager;
 
+import java.util.Objects;
+
 public class Utilities {
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
@@ -10,7 +12,7 @@ public class Utilities {
                         Activity.INPUT_METHOD_SERVICE);
         if(inputMethodManager.isAcceptingText()){
             inputMethodManager.hideSoftInputFromWindow(
-                    activity.getCurrentFocus().getWindowToken(),
+                    Objects.requireNonNull(activity.getCurrentFocus()).getWindowToken(),
                     0
             );
         }

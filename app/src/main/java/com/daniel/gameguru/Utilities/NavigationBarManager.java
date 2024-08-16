@@ -7,6 +7,7 @@ import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.daniel.gameguru.Activities.Activity_CreateGuide;
 import com.daniel.gameguru.Activities.Activity_Home;
 import com.daniel.gameguru.Activities.Activity_Profile;
 import com.daniel.gameguru.Activities.Activity_Search;
@@ -63,14 +64,14 @@ public class NavigationBarManager {
                 intent = new Intent(context, Activity_Home.class);
             } else if (id == R.id.navigation_account) {
                 intent = new Intent(context, Activity_Profile.class);
-            } else if (id == R.id.navigation_create) {
-               // intent = new Intent(context, Activity_Create.class);
-                return true;
-            } else if (id == R.id.navigation_search) {
+            }
+             else if (id == R.id.navigation_search) {
                 intent = new Intent(context, Activity_Search.class);
             } else if (id == R.id.navigation_notifications) {
                // intent = new Intent(context, Ac.class);
                 return true;
+            }if (id == R.id.navigation_create) {
+                intent = new Intent(context, Activity_CreateGuide.class);
             }
 
             if (intent != null) {

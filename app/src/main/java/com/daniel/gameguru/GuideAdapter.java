@@ -1,5 +1,6 @@
 package com.daniel.gameguru;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.daniel.gameguru.Activities.Activity_Guide;
 import com.daniel.gameguru.Entities.Guide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
@@ -35,6 +37,7 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.GuideViewHol
 
         holder.guideTitle.setText(guide.getTitle());
 
+
         // Load the guide image using Glide
         Glide.with(holder.itemView.getContext())
                 .load(guide.getImageUrl())
@@ -44,6 +47,11 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.GuideViewHol
 
         holder.openGuideButton.setOnClickListener(v -> {
             Log.d("GuideAdapter", "Opening guide: " + guide.getTitle());
+            Intent i = new Intent(v.getContext(), Activity_Guide.class);
+            i.putExtra("guideId", guide.getId());
+            v.getContext().startActivity(i);
+
+
         });
     }
 

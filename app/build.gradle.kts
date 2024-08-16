@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.ir.backend.js.compile
+
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
@@ -74,7 +76,9 @@ dependencies {
     implementation (libs.androidx.core.splashscreen)
     implementation(libs.firebase.storage)
     implementation (libs.firebase.firestore)
-    
+    implementation (libs.richeditor.android)
+    implementation (libs.keyboardvisibilityevent)
+
 
 
 
