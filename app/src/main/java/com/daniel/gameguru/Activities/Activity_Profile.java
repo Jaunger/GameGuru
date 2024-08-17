@@ -62,9 +62,16 @@ public class Activity_Profile extends AppCompatActivity {
 
         findViews();
         initViews();
-        updateUI(); //todo: also update description
+        updateUI();
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
 
     private void findViews() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -88,15 +95,14 @@ public class Activity_Profile extends AppCompatActivity {
                 });
 
 
-        editProfileButton.setOnClickListener(v -> editImage());
+        editProfileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Activity_Profile.this, Activity_EditProfile.class);
+            startActivity(intent);
+        });
     }
 
-    private void editImage() {
-        pickMedia.launch(new PickVisualMediaRequest.Builder()
-                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                .build());
-    }
 
+/*
     ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 if (uri != null) {
@@ -123,6 +129,8 @@ public class Activity_Profile extends AppCompatActivity {
                         }));
     }
 
+
+
     private void updateUserImageInFirestore(String imageUrl) {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DocumentReference userDocRef = firestore.collection("users").document(userUid);
@@ -135,18 +143,18 @@ public class Activity_Profile extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(Activity_Profile.this, "Error updating profile image: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
-
+ */
 
     private void updateUI() {
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DocumentReference userDocRef = firestore.collection("users").document(userUid);
 
-        userDocRef.get().addOnCompleteListener(task -> {
+        userDocRef.get().addOnCompleteListener(task -> { //todo: need to make it to not update late
             if (task.isSuccessful()) {
                 if (task.getResult() != null) {
                     String imageUrl = task.getResult().getString("image");
                     String name = task.getResult().getString("name");
-
+                    String description = task.getResult().getString("description");
                     Glide.with(Activity_Profile.this)
                             .load(imageUrl)
                             .placeholder(R.drawable.img_white)
@@ -154,6 +162,7 @@ public class Activity_Profile extends AppCompatActivity {
                             .into(profileImage);
 
                     userName.setText(name);
+                    userDescription.setText(description);
                 }
             } else {
                 Log.d("Firestore", "Error getting documents: ", task.getException());

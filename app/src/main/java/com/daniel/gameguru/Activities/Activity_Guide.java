@@ -2,6 +2,7 @@ package com.daniel.gameguru.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,9 +23,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Activity_Guide extends AppCompatActivity {
 
-    private MaterialTextView guideTitleTextView, gameNameTextView, categoryTextView;
+    private MaterialTextView guideTitleTextView, categoryTextView;
     private WebView guideContentWebView;
-    private ImageView guideImageView;
+    private MaterialTextView gameNameLink;
+    private String gameId;
     private FloatingActionButton fabEditGuide;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -43,9 +45,11 @@ public class Activity_Guide extends AppCompatActivity {
 
         // Get guideId from Intent
         guideId = getIntent().getStringExtra("guideId");
+        gameId = getIntent().getStringExtra("gameId");
+        Log.d("Activity_Guide_GAMe", "Starting edit activity with guideId: " + gameId);
 
         findViews();
-
+        initViews();
         // Setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,17 +66,32 @@ public class Activity_Guide extends AppCompatActivity {
         });
     }
 
+    private void initViews() {
+
+        // Configure the WebView
+        guideContentWebView.getSettings().setJavaScriptEnabled(true);
+        guideContentWebView.setWebViewClient(new WebViewClient());
+
+        gameNameLink.setOnClickListener(v -> {
+            if(gameId == null) {
+                Toast.makeText(this, "No game Exists", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent intent = new Intent(Activity_Guide.this, Activity_Game.class);
+            intent.putExtra("gameId", gameId); // Pass the gameId to the game page
+
+            startActivity(intent);
+        });
+    }
+
     private void findViews() {
         guideTitleTextView = findViewById(R.id.guideTitleTextView);
-        gameNameTextView = findViewById(R.id.gameNameTextView);
+        gameNameLink = findViewById(R.id.gameNameLink);
         categoryTextView = findViewById(R.id.categoryTextView);
         guideContentWebView = findViewById(R.id.guideContentWebView);
         //guideImageView = findViewById(R.id.guideImageView);
         fabEditGuide = findViewById(R.id.fabEditGuide);
 
-        // Configure the WebView
-        guideContentWebView.getSettings().setJavaScriptEnabled(true);
-        guideContentWebView.setWebViewClient(new WebViewClient());
     }
 
 
@@ -103,7 +122,7 @@ public class Activity_Guide extends AppCompatActivity {
 
     private void populateGuideData(Guide guide) {
         guideTitleTextView.setText(guide.getTitle());
-        gameNameTextView.setText(guide.getGameName());
+        gameNameLink.setText(guide.getGameName());
         categoryTextView.setText(guide.getCategory());
 
         // Load HTML content into the WebView

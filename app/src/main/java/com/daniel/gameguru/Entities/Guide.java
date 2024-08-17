@@ -5,22 +5,24 @@ public class Guide {
     private String title;
     private String imageUrl;
     private String gameName;
+    private String gameId;
     private String category;
     private String content;
     private String authorId;
     private boolean isPublished;
     private long timestamp;
 
-    // Empty constructor for Firestore
     public Guide() {
+
     }
 
     // Constructor with parameters
-    public Guide(String id, String title, String imageUrl, String gameName, String category, String content, String authorId, boolean isPublished, long timestamp) {
+    public Guide(String id, String title, String imageUrl, String gameName, String gameId, String category, String content, String authorId, boolean isPublished, long timestamp) {
         this.id = id;
         this.title = title;
         this.imageUrl = imageUrl;
         this.gameName = gameName;
+        this.gameId = gameId;
         this.category = category;
         this.content = content;
         this.authorId = authorId;
@@ -99,5 +101,14 @@ public class Guide {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public Guide setGameId(String gameId) {
+        this.gameId = gameId;
+        return this;
     }
 }

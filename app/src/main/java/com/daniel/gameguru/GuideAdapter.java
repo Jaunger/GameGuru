@@ -48,6 +48,7 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.GuideViewHol
         holder.openGuideButton.setOnClickListener(v -> {
             Log.d("GuideAdapter", "Opening guide: " + guide.getTitle());
             Intent i = new Intent(v.getContext(), Activity_Guide.class);
+            i.putExtra("gameId", guide.getGameId());
             i.putExtra("guideId", guide.getId());
             v.getContext().startActivity(i);
 

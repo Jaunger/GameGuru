@@ -16,10 +16,15 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.splashscreen.SplashScreen;
 
+import com.daniel.gameguru.Entities.Game;
 import com.daniel.gameguru.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Activity_Login extends AppCompatActivity {
 
@@ -37,7 +42,7 @@ public class Activity_Login extends AppCompatActivity {
         setupUI(findViewById(R.id.loginParent));
 
         splashScreen.setKeepOnScreenCondition(() -> false);
-
+        //addDemoGame();
         findViews();
         initView();
 
@@ -73,6 +78,32 @@ public class Activity_Login extends AppCompatActivity {
             finish();
         });
     }
+
+    private void addDemoGame() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        List<String> genres = new ArrayList<>();
+        genres.add("Action");
+        genres.add("RPG");
+        Game demoGame = new Game(
+                "Demon Slayer: Chronicles",  // Title
+                "Nezuko Games",              // Developer
+                "Tanjiro Publishing",        // Publisher
+                "2024-08-01",                // Release Date
+                genres,                // Genre
+                "https://example.com/demon_slayer.jpg",  // Image URL (placeholder)
+                "Embark on an epic journey to defeat the demon king in this action-packed RPG."  // Description
+        );
+
+        db.collection("games").add(demoGame)
+                .addOnSuccessListener(documentReference -> {
+                    String gameId = documentReference.getId();
+                    demoGame.setId(gameId);
+                    documentReference.set(demoGame);
+                    Toast.makeText(this, "Demo game added successfully", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Failed to add demo game", Toast.LENGTH_SHORT).show());
+    }
+
 
     @Override
     public void onStart() {

@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
-        android:text="Khun Marco Asensio"
+        android:text="buh"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"/>
@@ -116,13 +116,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@android:color/white"
+        android:backgroundTint="@android:color/holo_orange_light"
         android:layout_marginHorizontal="16dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/userDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8dp"
+
             android:text="This is a short description or bio for the user. It can include details about their interests, expertise, or any other relevant information."
             android:textSize="16sp"
 
