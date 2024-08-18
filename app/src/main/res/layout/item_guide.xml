@@ -31,7 +31,7 @@
             android:layout_toStartOf="@id/guideImage"
             android:layout_marginEnd="16dp"
             android:text="Guide Name"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 

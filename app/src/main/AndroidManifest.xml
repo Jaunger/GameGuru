@@ -28,7 +28,7 @@
         <activity
             android:name=".Activities.Activity_CreateGuide"
             android:exported="false"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activities.Activity_Search"
             android:exported="false"
@@ -46,7 +46,7 @@
         <activity
             android:name=".Activities.Activity_Login"
             android:exported="true"
-            android:theme="@style/Theme.GameGuru.Splash">
+            android:theme="@style/Theme.GameGuru.Splash"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

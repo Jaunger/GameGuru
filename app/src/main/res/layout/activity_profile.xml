@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@android:color/white"
+    android:background="?attr/android:colorBackground"
     >
 
     <!-- Profile Header -->
@@ -32,7 +32,7 @@
             android:layout_alignTop="@id/profileImage"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_edit"
-            app:tint="@android:color/black"
+            app:tint="?attr/android:textColorPrimary"
             android:contentDescription="Edit Profile"/>
     </RelativeLayout>
 
@@ -46,7 +46,7 @@
         android:text="buh"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"/>
+        android:textColor="?attr/android:textColorPrimary"/>
 
     <!-- Followers and Following -->
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -69,7 +69,7 @@
                 android:text="20K"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"/>
+                android:textColor="?attr/android:textColorPrimary"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/followersLabel"
@@ -77,14 +77,14 @@
                 android:layout_height="wrap_content"
                 android:text="Followers"
                 android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"/>
+                android:textColor="?attr/android:textColorSecondary"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="16dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="?attr/dividerColor"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                 android:text="350"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"/>
+                android:textColor="?attr/android:textColorPrimary"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/followingLabel"
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:text="Following"
                 android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"/>
+                android:textColor="?attr/android:textColorSecondary"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -116,22 +116,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@android:color/holo_orange_light"
+        android:backgroundTint="?attr/colorSurface"
         android:layout_marginHorizontal="16dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/userDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#6D6D6D"
             android:padding="8dp"
-
             android:text="This is a short description or bio for the user. It can include details about their interests, expertise, or any other relevant information."
             android:textSize="16sp"
-
-            android:textColor="@android:color/black"/> <!-- Ensuring the text color contrasts with the background -->
+            android:textColor="?attr/android:textColorPrimary"/> <!-- Ensuring the text color contrasts with the background -->
     </com.google.android.material.card.MaterialCardView>
-
-
 
     <!-- My Guides Section -->
     <com.google.android.material.textview.MaterialTextView
@@ -143,7 +140,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:padding="16dp"
-        android:textColor="@android:color/black"/>
+        android:textColor="?attr/android:textColorPrimary"/>
 
     <!-- Guides Fragment Container -->
     <androidx.fragment.app.FragmentContainerView
@@ -161,18 +158,17 @@
         android:layout_marginTop="16dp"
         android:text="Log Out"
         android:layout_marginHorizontal="150dp"
-        android:textColor="@android:color/white"
+        android:textColor="?attr/android:textColorPrimary"
         android:backgroundTint="@android:color/holo_orange_dark"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
+    <!-- Bottom Navigation -->
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemIconTint="@color/navigation_icon_color"
-        app:itemTextColor="@color/navigation_text_color"
-        android:background="?android:attr/windowBackground"
-        app:labelVisibilityMode="unlabeled"/>
+        app:itemIconTint="?attr/colorPrimary"
+        app:itemTextColor="?attr/colorPrimary"
+        app:labelVisibilityMode="unlabeled" />
 </androidx.appcompat.widget.LinearLayoutCompat>

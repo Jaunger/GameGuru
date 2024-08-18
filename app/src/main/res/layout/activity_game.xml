@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/backgroundColor">
+    android:background="?attr/android:colorBackground">
 
     <!-- Scrollable content -->
     <ScrollView
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="Game Title"
                 android:textSize="24sp"
-                android:textColor="@color/primaryTextColor"
+                android:textColor="?attr/android:textColorPrimary"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="Developer, Publisher, Release Date"
                 android:textSize="14sp"
-                android:textColor="@color/textColorSecondary"
+                android:textColor="?attr/android:textColorSecondary"
                 android:layout_marginBottom="16dp" />
 
             <!-- Game Description -->
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="Game Description"
                 android:textSize="16sp"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="?attr/android:textColorPrimary"
                 android:layout_marginBottom="16dp" />
 
             <!-- Genre Buttons Container -->
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:text="Related Guides"
                 android:textSize="20sp"
-                android:textColor="@color/primaryTextColor"
+                android:textColor="?attr/android:textColorPrimary"
                 android:layout_marginBottom="8dp"
                 android:textStyle="bold" />
 
@@ -93,9 +93,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:itemIconTint="@color/navigation_icon_color"
-        app:itemTextColor="@color/navigation_text_color"
-        android:background="?android:attr/windowBackground"
+        app:itemIconTint="?attr/colorControlActivated"
+        app:itemTextColor="?attr/colorControlActivated"
+        android:background="?attr/android:colorBackground"
         app:labelVisibilityMode="unlabeled" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

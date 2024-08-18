@@ -2,11 +2,67 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.GameGuru" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Background and surface colors -->
+        <item name="android:colorBackground">#212121</item>
+        <item name="colorSurface">@color/cardBackgroundColor</item>
+        <item name="colorOnSurface">@color/white</item>
+
+        <item name="dividerColor">@color/dividerColorDark</item>
+
+        <!-- Control colors -->
+        <item name="colorControlActivated">@color/primaryColor</item>
+        <item name="colorControlHighlight">@color/primaryColor</item>
+        <item name="colorControlNormal">@color/secondaryColor</item>
+
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+
+        <!-- Background color for components -->
+        <item name="android:windowBackground">#212121</item>
+        <item name="android:colorForeground">@color/white</item>
     </style>
 
+    <!-- Main Theme that applies to the whole application -->
     <style name="Theme.GameGuru" parent="Base.Theme.GameGuru" />
 
+    <!-- Dark Theme Customization -->
+    <style name="Base.Theme.GameGuru.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Background and surface colors -->
+        <item name="android:colorBackground">#212121</item>
+        <item name="colorSurface">@color/primaryDarkColor</item>
+        <item name="colorOnSurface">@color/white</item>
+
+        <!-- Control colors -->
+        <item name="colorControlActivated">@color/primaryColor</item>
+        <item name="colorControlHighlight">@color/primaryColor</item>
+        <item name="colorControlNormal">@color/secondaryColor</item>
+
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+    </style>
+
+    <!-- ImageView Styles -->
     <style name="circleImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
@@ -22,6 +78,13 @@
         <item name="cornerSize">25dp</item>
     </style>
 
+    <!-- Custom RadioButton Style -->
+    <style name="CustomRadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="colorControlActivated">@color/primaryColor</item>
+        <item name="android:buttonTint">@color/primaryColor</item>
+    </style>
+
+    <!-- Splash Screen Theme -->
     <style name="Theme.GameGuru.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/primaryDarkColor</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_app</item>

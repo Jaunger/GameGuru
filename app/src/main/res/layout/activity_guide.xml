@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor">
+    android:background="?attr/android:colorBackground">
 
     <!-- App Bar with Title -->
     <com.google.android.material.appbar.AppBarLayout
@@ -15,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="@color/primaryColor"
+            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleTextAppearance="@android:color/transparent">
 
             <androidx.appcompat.widget.SearchView
@@ -23,26 +22,29 @@
                 android:layout_height="match_parent"
                 app:layout_collapseMode="pin"
                 android:id="@+id/searchView"
-                app:queryHint="Search here..."/>
+                app:queryHint="Search here..."
+                android:background="?attr/android:colorBackground"
+                app:tint="?attr/colorControlActivated"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                android:background="?attr/colorPrimary" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Scrollable Content -->
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -54,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="?attr/android:textColorPrimary"
                 android:text="Guide Title" />
 
             <!-- Game Name -->
@@ -63,12 +65,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Game Name"
-                android:textColor="@color/primaryColor"
+                android:textColor="?attr/colorPrimary"
                 android:textStyle="bold"
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_marginBottom="16dp" />
-
 
             <!-- Category -->
             <com.google.android.material.textview.MaterialTextView
@@ -77,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textSize="16sp"
-                android:textColor="@color/textColorSecondary"
+                android:textColor="?attr/android:textColorSecondary"
                 android:text="Category" />
 
             <!-- Guide Content WebView -->
@@ -86,10 +87,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
-                android:background="@android:color/white" />
+                android:background="?attr/android:colorBackground" />
 
-        </LinearLayout>
-    </ScrollView>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Floating Action Button for Editing (if applicable) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -100,6 +101,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_edit"
         android:contentDescription="Edit Guide"
-        app:backgroundTint="@color/primaryColor" />
+        app:backgroundTint="?attr/colorPrimary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

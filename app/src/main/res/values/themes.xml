@@ -1,12 +1,42 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.GameGuru" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Base application theme for Light Mode -->
+    <style name="Base.Theme.GameGuru" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Background and surface colors -->
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="colorSurface">@color/cardBackgroundColor</item>
+        <item name="colorOnSurface">@color/textPrimary</item>
+
+        <item name="dividerColor">@color/dividerColorLight</item>
+
+        <!-- Control colors -->
+        <item name="colorControlActivated">@color/primaryColor</item>
+        <item name="colorControlHighlight">@color/primaryColor</item>
+        <item name="colorControlNormal">@color/secondaryColor</item>
+
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+
+        <!-- Background color for components -->
+        <item name="android:windowBackground">@color/backgroundColor</item>
+        <item name="android:colorForeground">@color/textColorPrimary</item>
     </style>
 
+
+    <!-- Main application theme for Light Mode -->
     <style name="Theme.GameGuru" parent="Base.Theme.GameGuru" />
 
+    <!-- ImageView Styles -->
     <style name="circleImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
@@ -21,11 +51,12 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">25dp</item>
     </style>
+
+    <!-- Splash Screen Theme -->
     <style name="Theme.GameGuru.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/primaryColor</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_app</item>
         <item name="windowSplashScreenAnimationDuration">1000</item> <!-- Duration in milliseconds -->
         <item name="postSplashScreenTheme">@style/Theme.GameGuru</item> <!-- Your main app theme -->
     </style>
-
 </resources>

@@ -1,9 +1,12 @@
 package com.daniel.gameguru.Activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.URLUtil;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -70,7 +73,20 @@ public class Activity_Guide extends AppCompatActivity {
 
         // Configure the WebView
         guideContentWebView.getSettings().setJavaScriptEnabled(true);
-        guideContentWebView.setWebViewClient(new WebViewClient());
+        guideContentWebView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                String url = request.getUrl().toString();
+                // Check if the URL is a valid link and open it in the external browser
+                if (URLUtil.isValidUrl(url)) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
+                    return true; // Indicate that the event is handled
+                }
+                return false;
+            }
+        });
+
 
         gameNameLink.setOnClickListener(v -> {
             if(gameId == null) {

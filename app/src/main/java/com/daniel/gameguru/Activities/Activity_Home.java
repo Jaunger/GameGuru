@@ -1,5 +1,6 @@
 package com.daniel.gameguru.Activities;
 
+import static com.daniel.gameguru.Utilities.Utilities.hideKeyboard;
 import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
 
 import android.os.Bundle;
@@ -52,7 +53,7 @@ public class Activity_Home extends AppCompatActivity {
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(Activity_Home.this);
+                    hideKeyboard(Activity_Home.this);
                     v.clearFocus();
                     return false;
                 }

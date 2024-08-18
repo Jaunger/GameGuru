@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#212121</color>
     <color name="white">#FFFFFFFF</color>
     <!-- Primary color for the app (used in header background, buttons, etc.) -->
     <color name="primaryColor">#3F51B5</color>
@@ -28,6 +28,11 @@
     <color name="secondaryColor">#6C757D</color> <!-- Gray color for secondary buttons -->
     <color name="primaryTextColor">#212529</color> <!-- Dark gray/black for text -->
     <color name="toolbarBackgroundColor">#F8F9FA</color> <!-- Light gray for toolbar background -->
+
+
+    <!-- Divider colors -->
+    <color name="dividerColorLight">#BDBDBD</color> <!-- Light theme divider color -->
+    <color name="dividerColorDark">#424242</color> <!-- Dark theme divider color -->
 
     <!-- Additional Colors -->
     <color name="errorColor">#DC3545</color> <!-- Red for error messages -->
