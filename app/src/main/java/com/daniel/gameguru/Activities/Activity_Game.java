@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Activity_Game extends AppCompatActivity {
 
@@ -104,14 +105,16 @@ public class Activity_Game extends AppCompatActivity {
         }
     }
 
-    private void loadRelatedGuides(List<String> guideIds) {
-        for (String guideId : guideIds) {
+    private void loadRelatedGuides(Map<String,Integer> guideIds) {
+        int intCount = guideAdapter.getItemCount();
+        List<String> Ids = new ArrayList<>(guideIds.keySet());
+        for (String guideId : Ids) {
             db.collection("guides").document(guideId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         Guide guide = documentSnapshot.toObject(Guide.class);
                         if (guide != null) {
                             relatedGuides.add(guide);
-                            guideAdapter.notifyDataSetChanged();
+                            guideAdapter.notifyItemRangeInserted(intCount, relatedGuides.size());
                         }
                     })
                     .addOnFailureListener(e -> {

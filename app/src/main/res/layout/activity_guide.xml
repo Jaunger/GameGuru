@@ -54,10 +54,18 @@
                 android:id="@+id/guideTitleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="36sp"
                 android:textStyle="bold"
                 android:textColor="?attr/android:textColorPrimary"
                 android:text="Guide Title" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+                >
+
 
             <!-- Game Name -->
             <com.google.android.material.textview.MaterialTextView
@@ -65,11 +73,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Game Name"
+                android:textSize="20sp"
+
                 android:textColor="?attr/colorPrimary"
                 android:textStyle="bold"
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_marginBottom="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/authorUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Author"
+                android:textSize="20sp"
+
+                android:textColor="@color/primaryColor"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="16dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- Category -->
             <com.google.android.material.textview.MaterialTextView

@@ -5,12 +5,12 @@ import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -18,6 +18,7 @@ import androidx.core.splashscreen.SplashScreen;
 
 import com.daniel.gameguru.Entities.Game;
 import com.daniel.gameguru.R;
+import com.daniel.gameguru.Utilities.DbManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,12 +53,11 @@ public class Activity_Login extends AppCompatActivity {
     public void setupUI(View view) {
         // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(Activity_Login.this);
-                    v.clearFocus();
-                    return false;
-                }
+            view.setOnTouchListener((v, event) -> {
+                hideSoftKeyboard(Activity_Login.this);
+                v.clearFocus();
+                v.performClick();
+                return false;
             });
         }
 
@@ -81,18 +81,7 @@ public class Activity_Login extends AppCompatActivity {
 
     private void addDemoGame() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        List<String> genres = new ArrayList<>();
-        genres.add("Action");
-        genres.add("RPG");
-        Game demoGame = new Game(
-                "Demon Slayer: Chronicles",  // Title
-                "Nezuko Games",              // Developer
-                "Tanjiro Publishing",        // Publisher
-                "2024-08-01",                // Release Date
-                genres,                // Genre
-                "https://example.com/demon_slayer.jpg",  // Image URL (placeholder)
-                "Embark on an epic journey to defeat the demon king in this action-packed RPG."  // Description
-        );
+        Game demoGame = getGame();
 
         db.collection("games").add(demoGame)
                 .addOnSuccessListener(documentReference -> {
@@ -104,6 +93,21 @@ public class Activity_Login extends AppCompatActivity {
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to add demo game", Toast.LENGTH_SHORT).show());
     }
 
+    private static @NonNull Game getGame() {
+        List<String> genres = new ArrayList<>();
+        genres.add("Action");
+        genres.add("RPG");
+        return new Game(
+                "Demon Slayer: Chronicles",  // Title
+                "Nezuko Games",              // Developer
+                "Tanjiro Publishing",        // Publisher
+                "2024-08-01",                // Release Date
+                genres,                // Genre
+                "https://example.com/demon_slayer.jpg",  // Image URL (placeholder)
+                "Embark on an epic journey to defeat the demon king in this action-packed RPG."  // Description
+        );
+    }
+
 
     @Override
     public void onStart() {
@@ -111,7 +115,11 @@ public class Activity_Login extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            reload();
+            DbManager.isUserExists(currentUser.getUid(), exists -> {
+                if (exists) {
+                    reload();
+                }
+            });
         }
 
 

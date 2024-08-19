@@ -1,16 +1,17 @@
 package com.daniel.gameguru.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.daniel.gameguru.Entities.Guide;
 import com.daniel.gameguru.GuideAdapter;
@@ -30,6 +31,8 @@ public class GuideListFragment extends Fragment {
     private List<Guide> guideList;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    private String authorId;
+
 
     @Nullable
     @Override
@@ -50,27 +53,37 @@ public class GuideListFragment extends Fragment {
 
         // Set the adapter to the RecyclerView
         guideRecyclerView.setAdapter(guideAdapter);
-        loadGuidesFromFirestore();
+        loadGuidesFromFireStore();
 
 
         return view;
     }
 
 
-    private void loadGuidesFromFirestore() {
+    private void loadGuidesFromFireStore() {
         db.collection("guides").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 List<Guide> guides = new ArrayList<>();
                 task.getResult().forEach(document -> {
                     Guide guide = document.toObject(Guide.class);
-                    if(guide.getAuthorId().equals(mAuth.getCurrentUser().getUid()))
+                    authorId = authorId == null ? mAuth.getCurrentUser().getUid() : authorId;
+                    if(guide.getAuthorId().equals(authorId))
                         guides.add(guide);
                 });
                 guideRecyclerView.setAdapter(new GuideAdapter(guides)); // Replace the dummy data
 
             } else {
-                // Handle the error appropriately
+                // Log the error
+                Log.e("FireStoreError", "Error getting documents: ", task.getException());
+                // Show an appropriate message to the user
+                Toast.makeText(getContext(), "Failed to load guides. Please try again later.", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    public GuideListFragment setAuthorId(String authorId) {
+        this.authorId = authorId;
+        return this;
+    }
+
 }

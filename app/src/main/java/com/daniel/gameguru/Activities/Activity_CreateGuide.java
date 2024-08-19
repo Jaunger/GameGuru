@@ -1,7 +1,6 @@
 package com.daniel.gameguru.Activities;
 
 import static com.daniel.gameguru.Utilities.Utilities.hideKeyboard;
-import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -33,7 +31,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -55,7 +52,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
     }
     private RichEditor mEditor;
     private MaterialButton mBold, mItalic, mUnderline, mInsertImage, mTextColor, mInsertLink, mUndo, mRedo;
-    private MaterialButton mSaveAsDraftButton, mPublishButton,maddImage;
+    private MaterialButton mSaveAsDraftButton, mPublishButton, mAddImage;
     private BottomNavigationView bottomNavigationView;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -92,12 +89,11 @@ public class Activity_CreateGuide extends AppCompatActivity {
                     }
                 });
         if (!(view instanceof EditText)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideKeyboard(Activity_CreateGuide.this);
-                    v.clearFocus();
-                    return false;
-                }
+            view.setOnTouchListener((v, event) -> {
+                hideKeyboard(Activity_CreateGuide.this);
+                v.clearFocus();
+                v.performClick();
+                return false;
             });
         }
     }
@@ -123,7 +119,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
         mUndo = findViewById(R.id.action_undo);
         mRedo = findViewById(R.id.action_redo);
         mTextColor = findViewById(R.id.action_text_color);
-        maddImage = findViewById(R.id.addImageButton);
+        mAddImage = findViewById(R.id.addImageButton);
         gameNameInput = findViewById(R.id.gameNameInput);
 
     }
@@ -139,7 +135,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() >= 2) { // Minimum 2 characters to start suggesting
-                    fetchGamesFromFirestore(charSequence.toString());
+                    fetchGamesFromFireStore(charSequence.toString());
                 }
             }
 
@@ -148,7 +144,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
         });
     }
 
-    private void fetchGamesFromFirestore(String query) {
+    private void fetchGamesFromFireStore(String query) {
         db.collection("games")
                 .whereGreaterThanOrEqualTo("title", query)
                 .whereLessThanOrEqualTo("title", query + '\uf8ff') // to perform "starts with" query
@@ -170,11 +166,9 @@ public class Activity_CreateGuide extends AppCompatActivity {
     private void initView() {
         NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_create);
-        maddImage.setOnClickListener(v -> {
-            pickMedia.launch(new PickVisualMediaRequest.Builder()
-                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                    .build());
-        });
+        mAddImage.setOnClickListener(v -> pickMedia.launch(new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                .build()));
         setupUI(findViewById(R.id.createGuideParent));
         buttonListeners();
         setupRichEditor();
@@ -271,7 +265,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
     private void uploadImageToStorage(Uri uri, int type) {
         String path = type == 1 ? "guides/" : "editor/" ;
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        String imageName = "guides/" + System.currentTimeMillis() + ".jpg";
+        String imageName = path + System.currentTimeMillis() + ".jpg";
         StorageReference imageRef = storageRef.child(imageName);
 
         imageRef.putFile(uri)
@@ -357,9 +351,23 @@ public class Activity_CreateGuide extends AppCompatActivity {
     private void updateGameWithGuide(String gameId, String guideId) {
         DocumentReference gameRef = db.collection("games").document(gameId);
 
-        gameRef.update("guideIds", FieldValue.arrayUnion(guideId))
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Guide ID added to game"))
-                .addOnFailureListener(e -> Log.d(TAG, "Failed to add guide ID to game: " + e.getMessage()));
+        gameRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                Map<String, Integer> guideIds = (Map<String, Integer>) documentSnapshot.get("guideIds");
+                if (guideIds == null) {
+                    guideIds = new HashMap<>();
+                }
+
+                guideIds.put(guideId, 1);
+                gameRef.update("guideIds", guideIds)
+                        .addOnSuccessListener(aVoid -> Log.d(TAG, "Guide added to game"))
+                        .addOnFailureListener(e -> Log.w(TAG, "Error adding guide to game", e));
+            }else{
+                Log.d(TAG, "Game not found");
+            }
+        });
+
+
     }
     private void getGameIdFromName(String gameName, FirestoreCallback firestoreCallback) {
         db.collection("games")
@@ -374,7 +382,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.w("Firestore", "Error getting documents.", e);
+                    Log.w("FireStore", "Error getting documents.", e);
                     firestoreCallback.onCallback(null);
                 });
     }

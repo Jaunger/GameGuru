@@ -1,12 +1,12 @@
 package com.daniel.gameguru.Activities;
 
 import static com.daniel.gameguru.Utilities.Utilities.hideKeyboard;
-import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +18,6 @@ import com.daniel.gameguru.GuideAdapter;
 import com.daniel.gameguru.R;
 import com.daniel.gameguru.Utilities.NavigationBarManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -32,7 +30,6 @@ public class Activity_Home extends AppCompatActivity {
     private RecyclerView popularGuidesRecycler;
     private BottomNavigationView bottomNavigationView;
     private FirebaseFirestore db;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +38,6 @@ public class Activity_Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
 
-        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         setupUI(findViewById(R.id.homeParent));
@@ -51,12 +47,11 @@ public class Activity_Home extends AppCompatActivity {
 
     public void setupUI(View view) {
         if (!(view instanceof EditText)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideKeyboard(Activity_Home.this);
-                    v.clearFocus();
-                    return false;
-                }
+            view.setOnTouchListener((v, event) -> {
+                hideKeyboard(Activity_Home.this);
+                v.clearFocus();
+                v.performClick();
+                return false;
             });
         }
 
@@ -79,12 +74,12 @@ public class Activity_Home extends AppCompatActivity {
 
 
 
-        loadGuidesFromFirestore(); // Uncomment this to load real data from Firestore
+        loadGuidesFromFireStore();
     }
 
 
 
-    private void loadGuidesFromFirestore() {
+    private void loadGuidesFromFireStore() {
         db.collection("guides").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 List<Guide> guides = new ArrayList<>();
@@ -96,17 +91,10 @@ public class Activity_Home extends AppCompatActivity {
                 recentlyViewedGuidesRecycler.setAdapter(new GuideAdapter(guides));
                 popularGuidesRecycler.setAdapter(new GuideAdapter(guides));
             } else {
-                // Handle the error appropriately
-            }
+                Log.e("FireStoreError", "Error getting documents: ", task.getException());
+                Toast.makeText(Activity_Home.this, "Failed to load guides. Please try again later.", Toast.LENGTH_SHORT).show();            }
         });
     }
 
-    // Optionally, you can include a welcome message or greeting based on the user's name
-    private void greetUser() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            String userName = user.getDisplayName();
 
-        }
-    }
 }

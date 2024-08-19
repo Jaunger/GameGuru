@@ -65,6 +65,9 @@ public class Activity_EditProfile extends AppCompatActivity {
         });
     }
     private void loadUserData() {
+        if (mAuth.getCurrentUser() == null) {
+            return;
+        }
         String userUid = mAuth.getCurrentUser().getUid();
         DocumentReference userDocRef = firestore.collection("users").document(userUid);
 
@@ -102,28 +105,33 @@ public class Activity_EditProfile extends AppCompatActivity {
             });
 
     private void saveUserProfile() {
-        String name = editNameInput.getText().toString();
-        String description = editDescriptionInput.getText().toString().trim();
-        if (name.isEmpty() || description.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        String name,description,userUid;
 
-        String userUid = mAuth.getCurrentUser().getUid();
-        DocumentReference userDocRef = firestore.collection("users").document(userUid);
+        if(editNameInput.getText() != null && editDescriptionInput.getText() != null) {
+            name = editNameInput.getText().toString();
+            description = editDescriptionInput.getText().toString().trim();
 
-        if (selectedImageUri != null) {
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference imageRef = storageRef.child("USERS").child(userUid + ".jpg");
+            if (name.isEmpty() || description.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                imageRef.putFile(selectedImageUri)
-                        .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            updateUserProfile(userDocRef, name, description, uri.toString());
-                        }))
-                        .addOnFailureListener(e -> Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show());
+            if (mAuth.getCurrentUser() != null) {
+                userUid = mAuth.getCurrentUser().getUid();
+                DocumentReference userDocRef = firestore.collection("users").document(userUid);
 
-        } else {
-            updateUserProfile(userDocRef, name, description, null);
+                if (selectedImageUri != null) {
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                    StorageReference imageRef = storageRef.child("USERS").child(userUid + ".jpg");
+
+                    imageRef.putFile(selectedImageUri)
+                            .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> updateUserProfile(userDocRef, name, description, uri.toString())))
+                            .addOnFailureListener(e -> Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show());
+
+                } else {
+                    updateUserProfile(userDocRef, name, description, null);
+                }
+            }
         }
         Intent i = new Intent(this, Activity_Profile.class);
         startActivity(i);

@@ -2,15 +2,18 @@ package com.daniel.gameguru.Entities;
 
 public class User {
     private String id;
+    private String username;
     private String name;
     private String email;
     private String description;
     private String image;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String id) {
+    public User(String id, String username) {
         this.id = id;
+        this.username = username;
     }
 
     public String getId() {
@@ -57,4 +60,12 @@ public class User {
         return this;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public User setUsername(String username) {
+        this.username = username;
+        return this;
+    }
 }

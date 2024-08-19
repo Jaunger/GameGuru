@@ -2,9 +2,7 @@ package com.daniel.gameguru.Activities;
 
 import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -67,6 +65,7 @@ public class Activity_Search extends AppCompatActivity {
         searchInput.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchGuides(v.getText().toString());
+                searchGames(v.getText().toString());
                 return true;
             }
             return false;
@@ -74,25 +73,43 @@ public class Activity_Search extends AppCompatActivity {
     }
 
     private void searchGuides(String query) {
+        int previousSize = searchResults.size();
         searchResults.clear();
         if (!query.isEmpty()) {
             DbManager.searchGuides(query, results -> {
+                if(results != null){
                 searchResults.addAll(results);
-                searchAdapter.notifyDataSetChanged();
+                searchAdapter.notifyItemRangeInserted(previousSize, searchResults.size() - previousSize);
+                }
             });
         } else {
-            searchAdapter.notifyDataSetChanged();
+            searchAdapter.notifyItemRangeRemoved(0, previousSize);
+        }
+    }
+
+    private void searchGames(String query) {
+        int previousSize = searchResults.size();
+        searchResults.clear();
+        if (!query.isEmpty()) {
+            DbManager.searchGames(query, results -> {
+                if(results != null){
+                    //searchResults.addAll(results);
+                    searchAdapter.notifyItemRangeInserted(previousSize, searchResults.size() - previousSize);
+                }
+            });
+        } else {
+            searchAdapter.notifyItemRangeRemoved(0, previousSize);
         }
     }
 
     public void setupUI(View view) {
         if (!(view instanceof EditText)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(Activity_Search.this);
-                    v.clearFocus();
-                    return false;
-                }
+            view.setOnTouchListener((v, event) -> {
+
+                hideSoftKeyboard(Activity_Search.this);
+                v.clearFocus();
+                v.performClick();
+                return false;
             });
         }
 

@@ -11,4 +11,11 @@
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="save">Save</string>
+    <string name="app_icon">App Icon</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_an_account_login_here">Already have an account? Login here</string>
 </resources>

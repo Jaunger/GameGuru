@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.GuideViewHolder> {
 
-    private List<Guide> guides;
+    private final List<Guide> guides;
 
     public GuideAdapter(List<Guide> guides) {
         this.guides = guides;
@@ -50,6 +50,7 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.GuideViewHol
             Intent i = new Intent(v.getContext(), Activity_Guide.class);
             i.putExtra("gameId", guide.getGameId());
             i.putExtra("guideId", guide.getId());
+            i.putExtra("authorId", guide.getAuthorId());
             v.getContext().startActivity(i);
 
 

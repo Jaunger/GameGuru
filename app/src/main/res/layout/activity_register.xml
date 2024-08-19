@@ -15,13 +15,13 @@
         android:layout_height="150dp"
         android:src="@drawable/ic_app"
         android:layout_marginBottom="24dp"
-        android:contentDescription="App Icon"/>
+        android:contentDescription="@string/app_icon"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/registerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/register"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Name"
+        android:hint="@string/name"
         app:boxStrokeColor="@android:color/black"
         app:boxBackgroundMode="outline">
 
@@ -49,7 +49,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Email"
+        android:hint="@string/username"
+        app:boxStrokeColor="@android:color/black"
+        app:boxBackgroundMode="outline">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/registerUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:background="@drawable/custom_edittext"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/email"
         app:boxStrokeColor="@android:color/black"
 
         app:boxBackgroundMode="outline">
@@ -67,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Password"
+        android:hint="@string/password"
         app:boxStrokeColor="@android:color/black"
         app:endIconMode="password_toggle"
         app:boxBackgroundMode="outline">
@@ -87,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:hint="Confirm Password"
+        android:hint="@string/confirm_password"
         app:boxStrokeColor="@android:color/black"
         app:endIconMode="password_toggle"
         app:boxBackgroundMode="outline">
@@ -107,7 +123,7 @@
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/register"
         android:textStyle="bold"
         android:backgroundTint="@android:color/holo_orange_dark"
         android:padding="12dp"
@@ -117,7 +133,7 @@
         android:id="@+id/loginRedirect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account? Login here"
+        android:text="@string/already_have_an_account_login_here"
         android:textColor="@android:color/white"
         android:layout_marginTop="16dp"/>
 </LinearLayout>

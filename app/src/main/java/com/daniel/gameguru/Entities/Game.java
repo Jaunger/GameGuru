@@ -1,5 +1,6 @@
 package com.daniel.gameguru.Entities;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Game {
@@ -11,7 +12,7 @@ public class Game {
     private List<String> genres; // This can be a list if needed, but as per your previous code, it's a single string
     private String imageUrl;
     private String description;
-    private List<String> guideIds;
+    private HashMap<String,Integer> guideIds;
 
     public Game() {}
 
@@ -89,11 +90,16 @@ public class Game {
         this.description = description;
     }
 
-    public List<String> getGuideIds() {
+    public HashMap<String, Integer> getGuideIds() {
         return guideIds;
     }
 
-    public void setGuideIds(List<String> guideIds) {
+    public void setGuideIds(HashMap<String, Integer> guideIds) {
         this.guideIds = guideIds;
+    }
+
+    public Game addGuideId(String guideId, int order) {
+        this.guideIds.put(guideId, 1);
+        return this;
     }
 }

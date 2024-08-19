@@ -9,14 +9,11 @@ import android.webkit.URLUtil;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.bumptech.glide.Glide;
 import com.daniel.gameguru.Entities.Guide;
 import com.daniel.gameguru.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,12 +25,13 @@ public class Activity_Guide extends AppCompatActivity {
 
     private MaterialTextView guideTitleTextView, categoryTextView;
     private WebView guideContentWebView;
-    private MaterialTextView gameNameLink;
+    private MaterialTextView gameNameLink, authorUsername;
     private String gameId;
     private FloatingActionButton fabEditGuide;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-
+    private String authorName;
+    private String authorId;
     private String guideId;
     private Guide guide;
 
@@ -49,7 +47,18 @@ public class Activity_Guide extends AppCompatActivity {
         // Get guideId from Intent
         guideId = getIntent().getStringExtra("guideId");
         gameId = getIntent().getStringExtra("gameId");
-        Log.d("Activity_Guide_GAMe", "Starting edit activity with guideId: " + gameId);
+        authorId = getIntent().getStringExtra("authorId");
+        Log.d("Activity_Guide_GAMe", "Starting edit activity with guideId: " + authorId);
+
+        db.collection("users").document(authorId).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                authorName = documentSnapshot.getString("username");
+                authorUsername.setText(authorName);
+            } else {
+                Toast.makeText(this, "Author not found", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
 
         findViews();
         initViews();
@@ -98,6 +107,18 @@ public class Activity_Guide extends AppCompatActivity {
 
             startActivity(intent);
         });
+
+
+        authorUsername.setOnClickListener(v -> {
+            if(authorId == null) {
+                Toast.makeText(this, "No author Exists", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent intent = new Intent(Activity_Guide.this, Activity_Profile.class);
+            intent.putExtra("authorId", authorId); // Pass the authorId to the profile page
+
+            startActivity(intent);
+        });
     }
 
     private void findViews() {
@@ -107,13 +128,9 @@ public class Activity_Guide extends AppCompatActivity {
         guideContentWebView = findViewById(R.id.guideContentWebView);
         //guideImageView = findViewById(R.id.guideImageView);
         fabEditGuide = findViewById(R.id.fabEditGuide);
-
+        authorUsername = findViewById(R.id.authorUsername);
     }
 
-
-
-    private void filterList(String text) {
-    }
 
     private void loadGuideData() {
         if (guideId != null && !guideId.isEmpty()) {
