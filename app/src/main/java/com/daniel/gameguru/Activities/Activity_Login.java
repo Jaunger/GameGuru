@@ -162,7 +162,7 @@ public class Activity_Login extends AppCompatActivity {
     }
 
     private void reload() {
-        Intent intent = new Intent(this, Activity_Profile.class);
+        Intent intent = new Intent(this, Activity_Home.class);
         startActivity(intent);
         finish();
     }

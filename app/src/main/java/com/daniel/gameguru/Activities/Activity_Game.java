@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.daniel.gameguru.Entities.Game;
 import com.daniel.gameguru.Entities.Guide;
-import com.daniel.gameguru.GuideAdapter;
+import com.daniel.gameguru.Adapters.GuideAdapter;
 import com.daniel.gameguru.R;
 import com.daniel.gameguru.Utilities.NavigationBarManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -107,6 +107,9 @@ public class Activity_Game extends AppCompatActivity {
 
     private void loadRelatedGuides(Map<String,Integer> guideIds) {
         int intCount = guideAdapter.getItemCount();
+        if(guideIds == null){
+            return;
+        }
         List<String> Ids = new ArrayList<>(guideIds.keySet());
         for (String guideId : Ids) {
             db.collection("guides").document(guideId).get()

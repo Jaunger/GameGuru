@@ -18,4 +18,8 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="already_have_an_account_login_here">Already have an account? Login here</string>
+    <string name="hello_user_s_name">Hello, [User\'s Name]</string>
+    <string name="featured_guides">Featured Guides</string>
+    <string name="game_title">Game Title</string>
+    <string name="game_genre">Game Genre</string>
 </resources>

@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.daniel.gameguru.Entities.Guide;
 import com.daniel.gameguru.R;
+import com.daniel.gameguru.Utilities.DbManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,13 +60,14 @@ public class Activity_Guide extends AppCompatActivity {
                 finish();
             }
         });
-
+        addGuideToUserRecent(guideId);
         findViews();
         initViews();
         // Setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> finish());
 
         loadGuideData();
@@ -151,6 +153,23 @@ public class Activity_Guide extends AppCompatActivity {
             Toast.makeText(this, "No Guide ID provided", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    private void addGuideToUserRecent(String guideId){
+        Log.d("Activity_Guide_recent", "Adding guide to user's recent guides");
+        DbManager.getCurrentUser(user -> {
+            if(user != null){
+                DbManager.addRecentGuide(user.getId(), guideId, isAdd -> {
+                    if(isAdd){
+                        Log.d("Activity_Guide", "Guide added to user's recent guides");
+                    }else{
+                        Log.e("Activity_Guide", "Failed to add guide to user's recent guides");
+                    }
+                });
+            }else{
+                Log.e("Activity_Guide", "Failed to get current user");
+            }
+        });
     }
 
     private void populateGuideData(Guide guide) {

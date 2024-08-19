@@ -8,12 +8,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daniel.gameguru.Adapters.GuideAdapter;
+import com.daniel.gameguru.Entities.Game;
 import com.daniel.gameguru.Entities.Guide;
-import com.daniel.gameguru.GuideAdapter;
+import com.daniel.gameguru.Adapters.GameAdapter;
 import com.daniel.gameguru.R;
 import com.daniel.gameguru.Utilities.DbManager;
 import com.daniel.gameguru.Utilities.NavigationBarManager;
@@ -27,9 +30,11 @@ public class Activity_Search extends AppCompatActivity {
 
     private TextInputEditText searchInput;
     private RecyclerView searchResultsRecycler;
-    private GuideAdapter searchAdapter;
+    private List<Guide> guideResults;
+    private GuideAdapter guideAdapter;
+    private List<Game> gameResults;
+    private GameAdapter gameAdapter;
     private BottomNavigationView bottomNavigationView;
-    private List<Guide> searchResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +56,14 @@ public class Activity_Search extends AppCompatActivity {
     }
 
     private void initView() {
-        searchResults = new ArrayList<>();
-        searchAdapter = new GuideAdapter(searchResults);
+        guideResults = new ArrayList<>();
+        gameResults = new ArrayList<>();
+
+        guideAdapter = new GuideAdapter(guideResults);
+        gameAdapter = new GameAdapter(gameResults);
 
         searchResultsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        searchResultsRecycler.setAdapter(searchAdapter);
+        searchResultsRecycler.setAdapter(gameAdapter);
 
         NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_search);
@@ -64,55 +72,51 @@ public class Activity_Search extends AppCompatActivity {
     private void setupSearch() {
         searchInput.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                searchGuides(v.getText().toString());
-                searchGames(v.getText().toString());
+                String query = v.getText().toString();
+                searchGuides(query);
+                searchGames(query);
                 return true;
             }
             return false;
         });
     }
 
-    private void searchGuides(String query) {
-        int previousSize = searchResults.size();
-        searchResults.clear();
+    private void searchGuides(@NonNull String query) {
+        guideResults.clear();
+        guideAdapter.notifyDataSetChanged(); // Notify that the dataset is cleared
+
         if (!query.isEmpty()) {
             DbManager.searchGuides(query, results -> {
-                if(results != null){
-                searchResults.addAll(results);
-                searchAdapter.notifyItemRangeInserted(previousSize, searchResults.size() - previousSize);
+                if (results != null && !results.isEmpty()) {
+                    guideResults.addAll(results);
+                    guideAdapter.notifyItemRangeInserted(0, guideResults.size());
                 }
             });
-        } else {
-            searchAdapter.notifyItemRangeRemoved(0, previousSize);
         }
     }
 
-    private void searchGames(String query) {
-        int previousSize = searchResults.size();
-        searchResults.clear();
+    private void searchGames(@NonNull String query) {
+        gameResults.clear();
+        gameAdapter.notifyDataSetChanged(); // Notify that the dataset is cleared
+
         if (!query.isEmpty()) {
             DbManager.searchGames(query, results -> {
-                if(results != null){
-                    //searchResults.addAll(results);
-                    searchAdapter.notifyItemRangeInserted(previousSize, searchResults.size() - previousSize);
+                if (results != null && !results.isEmpty()) {
+                    gameResults.addAll(results);
+                    gameAdapter.notifyItemRangeInserted(0, gameResults.size());
                 }
             });
-        } else {
-            searchAdapter.notifyItemRangeRemoved(0, previousSize);
         }
     }
 
     public void setupUI(View view) {
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
-
                 hideSoftKeyboard(Activity_Search.this);
                 v.clearFocus();
                 v.performClick();
                 return false;
             });
         }
-
     }
-
 }

@@ -48,13 +48,14 @@ public class Activity_Profile extends AppCompatActivity {
 
         findViews();
         initViews();
-        updateUI();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        updateUI();
+
     }
 
 
@@ -81,7 +82,7 @@ public class Activity_Profile extends AppCompatActivity {
                     finish();
                 });
 
-        DbManager.isCurrentUser(userUid, isCurrentUser -> {
+        DbManager.isCurrentUser(userUid,isCurrentUser -> {
                 if (isCurrentUser) {
                 editProfileButton.setVisibility(View.VISIBLE);
                 logoutButton.setVisibility(View.VISIBLE);
@@ -98,10 +99,13 @@ public class Activity_Profile extends AppCompatActivity {
 
     private void updateUI() {
         if(userUid == null)
-            userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            if(FirebaseAuth.getInstance().getCurrentUser() != null)
+                userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            else
+                return;
         DocumentReference userDocRef = firestore.collection("users").document(userUid);
 
-        userDocRef.get().addOnCompleteListener(task -> { //todo: need to make it to not update late
+        userDocRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (task.getResult() != null) {
                     String imageUrl = task.getResult().getString("image");

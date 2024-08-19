@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daniel.gameguru.Entities.Guide;
-import com.daniel.gameguru.GuideAdapter;
+import com.daniel.gameguru.Adapters.GuideAdapter;
 import com.daniel.gameguru.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;

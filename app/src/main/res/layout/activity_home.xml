@@ -11,32 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="5"
-        android:padding="16dp"
+        android:padding="32dp"
         android:orientation="vertical">
 
-        <!-- Search Bar -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+        <!-- Welcome Message -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/welcome_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/home_search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Search Guides"
-                android:drawableStart="@drawable/ic_search"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:textColor="?attr/android:textColorPrimary"
-                android:backgroundTint="?attr/colorPrimary" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:text="@string/hello_user_s_name"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="?attr/android:textColorPrimary"
+            android:layout_marginBottom="16dp"/>
 
         <!-- Featured Guides -->
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Featured Guides"
+            android:text="@string/featured_guides"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="?attr/android:textColorPrimary" />
@@ -70,27 +63,9 @@
             android:scrollbars="horizontal"
             tools:listitem="@layout/item_guide" />
 
-        <!-- Popular Guides -->
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Popular Guides"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="?attr/android:textColorPrimary" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/popular_guides_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:layoutManager="LinearLayoutManager"
-            android:orientation="horizontal"
-            android:scrollbars="horizontal"
-            tools:listitem="@layout/item_guide" />
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

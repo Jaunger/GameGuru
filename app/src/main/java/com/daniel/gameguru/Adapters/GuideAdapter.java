@@ -1,4 +1,4 @@
-package com.daniel.gameguru;
+package com.daniel.gameguru.Adapters;
 
 import android.content.Intent;
 import android.util.Log;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.daniel.gameguru.Activities.Activity_Guide;
 import com.daniel.gameguru.Entities.Guide;
+import com.daniel.gameguru.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 

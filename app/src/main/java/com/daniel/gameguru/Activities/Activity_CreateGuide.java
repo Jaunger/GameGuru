@@ -47,7 +47,7 @@ import jp.wasabeef.richeditor.RichEditor;
 
 public class Activity_CreateGuide extends AppCompatActivity {
 
-    public interface FirestoreCallback {
+    public interface FireStoreCallback {
         void onCallback(String gameId);
     }
     private RichEditor mEditor;
@@ -369,7 +369,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
 
 
     }
-    private void getGameIdFromName(String gameName, FirestoreCallback firestoreCallback) {
+    private void getGameIdFromName(String gameName, FireStoreCallback firestoreCallback) {
         db.collection("games")
                 .whereEqualTo("title", gameName)
                 .get()

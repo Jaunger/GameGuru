@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <!-- Game Thumbnail -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/game_thumbnail"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/description" />
+
+        <!-- Game Title -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/game_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/game_thumbnail"
+            android:layout_marginStart="16dp"
+            android:layout_alignParentTop="true"
+            android:text="@string/game_title"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface" />
+
+        <!-- Game Genre -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/game_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/game_title"
+            android:layout_toEndOf="@id/game_thumbnail"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/game_genre"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurface" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -133,9 +133,7 @@ public class Activity_EditProfile extends AppCompatActivity {
                 }
             }
         }
-        Intent i = new Intent(this, Activity_Profile.class);
-        startActivity(i);
-        finish();
+
     }
 
     private void updateUserProfile(DocumentReference userDocRef, String name, String description, String imageUrl) {

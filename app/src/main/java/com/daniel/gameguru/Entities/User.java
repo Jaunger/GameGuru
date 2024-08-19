@@ -1,5 +1,8 @@
 package com.daniel.gameguru.Entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class User {
     private String id;
     private String username;
@@ -7,6 +10,7 @@ public class User {
     private String email;
     private String description;
     private String image;
+    private Map<String, Integer> recentGuides = new HashMap<>();
 
     public User() {
     }
@@ -67,5 +71,18 @@ public class User {
     public User setUsername(String username) {
         this.username = username;
         return this;
+    }
+
+    public Map<String, Integer> getRecentGuides() {
+        return recentGuides;
+    }
+
+    public User setRecentGuides(Map<String, Integer> recentGuides) {
+        this.recentGuides = recentGuides;
+        return this;
+    }
+
+    public void addRecentlyViewedItem(String itemId, int timestamp) {
+        this.recentGuides.put(itemId, timestamp);
     }
 }
