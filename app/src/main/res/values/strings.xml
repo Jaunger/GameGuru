@@ -30,7 +30,7 @@
     <string name="this_is_a_short_description_or_bio_for_the_user_it_can_include_details_about_their_interests_expertise_or_any_other_relevant_information">This is a short description or bio for the user. It can include details about their interests, expertise, or any other relevant information.</string>
     <string name="my_guides">My Guides</string>
     <string name="log_out">Log Out</string>
-    <string name="search_guides">Search guides</string>
+    <string name="search_guides">Search guides and games</string>
     <string name="developer_publisher_release_date">Developer, Publisher, Release Date</string>
     <string name="game_description">Game Description</string>
     <string name="create_guide">Create guide</string>
