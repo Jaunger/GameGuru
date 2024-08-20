@@ -98,7 +98,7 @@ public class Game {
         this.guideIds = guideIds;
     }
 
-    public Game addGuideId(String guideId, int order) {
+    public Game addGuideId(String guideId) {
         this.guideIds.put(guideId, 1);
         return this;
     }

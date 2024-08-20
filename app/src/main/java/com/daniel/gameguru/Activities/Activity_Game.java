@@ -28,7 +28,6 @@ public class Activity_Game extends AppCompatActivity {
     private AppCompatImageView gameBannerImage;
     private AppCompatTextView gameTitle, gameDetails, gameDescription;
     private LinearLayoutCompat genresContainer;
-    private RecyclerView guidesRecycler;
 
     private GuideAdapter guideAdapter;
     private List<Guide> relatedGuides;
@@ -59,7 +58,7 @@ public class Activity_Game extends AppCompatActivity {
         gameDetails = findViewById(R.id.gameDetails);
         gameDescription = findViewById(R.id.gameDescription);
         genresContainer = findViewById(R.id.genresContainer);
-        guidesRecycler = findViewById(R.id.relatedGuidesRecyclerView);
+        RecyclerView guidesRecycler = findViewById(R.id.relatedGuidesRecyclerView);
 
         relatedGuides = new ArrayList<>();
         guideAdapter = new GuideAdapter(relatedGuides);

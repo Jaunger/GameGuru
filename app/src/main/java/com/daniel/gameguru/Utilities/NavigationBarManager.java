@@ -2,8 +2,6 @@ package com.daniel.gameguru.Utilities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 
@@ -34,15 +32,14 @@ public class NavigationBarManager {
     }
 
 
-
-    public void setupBottomNavigationView(BottomNavigationView bottomNavigationView, Context context) {
+    public void setupBottomNavigationView(BottomNavigationView bottomNavigationView) {
         Log.d(TAG, "Setting up BottomNavigationView for role: ");
         Menu menu = bottomNavigationView.getMenu();
         menu.clear();
 
             menu.add(Menu.NONE, R.id.navigation_home, Menu.NONE, R.string.home)
                     .setIcon(R.drawable.ic_home);
-            menu.add(Menu.NONE, R.id.navigation_search, Menu.NONE, R.string.following) //TODo: change to search
+            menu.add(Menu.NONE, R.id.navigation_search, Menu.NONE, R.string.following)
                     .setIcon(R.drawable.ic_search);
             menu.add(Menu.NONE, R.id.navigation_create, Menu.NONE, R.string.create)
                     .setIcon(R.drawable.ic_create);

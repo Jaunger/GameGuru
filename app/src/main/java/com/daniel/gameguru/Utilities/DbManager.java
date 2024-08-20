@@ -8,7 +8,6 @@ import com.daniel.gameguru.Entities.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -167,30 +166,6 @@ public class DbManager {
                                 .addOnFailureListener(e -> callBack.res(false));
                     }
 
-                });
-    }
-
-    // Get a specific user's profile image URL from FireStore
-    public static void getUserImage(FireStoreCallback<String> callBack) {
-        String userUid = getCurrentId();
-        if (userUid == null) return;
-        getFireStoreInstance().collection("users").document(userUid).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document != null && document.exists()) {
-                            User user = document.toObject(User.class);
-                            if (user != null) {
-                                callBack.res(user.getImage());
-                            } else {
-                                callBack.res(null);
-                            }
-                        } else {
-                            callBack.res(null);
-                        }
-                    } else {
-                        Log.d("FireStoreError", "Error getting documents: ", task.getException());
-                    }
                 });
     }
 

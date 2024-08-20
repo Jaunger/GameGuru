@@ -83,9 +83,6 @@ public class User {
         return this;
     }
 
-    public void addRecentlyViewedItem(String itemId, int timestamp) {
-        this.recentGuides.put(itemId, timestamp);
-    }
 
     public HashMap<String, Integer> getFollowing() {
         return following;

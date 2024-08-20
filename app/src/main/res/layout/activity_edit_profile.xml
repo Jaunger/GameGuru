@@ -7,11 +7,12 @@
     android:background="?attr/android:colorBackground">
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:id="@+id/returnButton"
         android:background="@null"
         android:src="@drawable/ic_arrow_back"
+
         app:tint="?attr/colorOnSurface"/>
 
     <!-- Edit Profile Image Button -->
@@ -58,9 +59,10 @@
     <!-- Save Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveProfileButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_gravity="center"
         android:text="@string/save"
         android:textColor="?attr/colorOnPrimary"
         android:backgroundTint="?attr/colorPrimary" />

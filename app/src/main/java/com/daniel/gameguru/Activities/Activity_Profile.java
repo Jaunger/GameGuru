@@ -76,7 +76,7 @@ public class Activity_Profile extends AppCompatActivity {
     }
 
     private void initViews() {
-        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
+        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_account);
 
         guideList = new ArrayList<>();
@@ -150,7 +150,7 @@ public class Activity_Profile extends AppCompatActivity {
             if (guides != null) {
                 guideList.clear();
                 guideList.addAll(guides);
-                guideAdapter.notifyItemRangeInserted(0,guideAdapter.getItemCount());
+                guideAdapter.notifyDataSetChanged();
             } else {
                 Log.e("Activity_Profile", "Failed to load guides");
             }

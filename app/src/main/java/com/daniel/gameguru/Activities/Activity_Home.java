@@ -69,7 +69,7 @@ public class Activity_Home extends AppCompatActivity {
     }
 
     private void initView() {
-        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
+        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_home);
 
         featuredGuidesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));

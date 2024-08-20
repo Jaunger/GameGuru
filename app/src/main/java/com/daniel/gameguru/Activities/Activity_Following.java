@@ -47,7 +47,7 @@ public class Activity_Following extends AppCompatActivity {
         followingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         followingRecyclerView.setAdapter(userAdapter);
 
-        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
+        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_notifications);
     }
 

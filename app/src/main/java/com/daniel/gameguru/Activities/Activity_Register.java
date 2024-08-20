@@ -64,6 +64,9 @@ public class Activity_Register extends AppCompatActivity {
 
 
     private void initView() {
+        if(registerUsername.getText() == null || registerEmail.getText() == null || registerPassword.getText() == null
+                || registerConfirmPassword.getText() == null || registerName.getText() == null)
+            return;
         registerButton.setOnClickListener(view -> db.collection("users")
                 .whereEqualTo("username", registerUsername.getText().toString())
                 .get()
@@ -116,9 +119,13 @@ public class Activity_Register extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d("RegisterActivity", "createUserWithEmail:success");
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        if (firebaseUser == null) {
+                            return;
+                        }
                         saveUserToFireStore(firebaseUser.getUid(), name, email, username);
 
                         Toast.makeText(Activity_Register.this, "Account Created", Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent(Activity_Register.this, Activity_Login.class);
                         startActivity(intent);
                         finish();

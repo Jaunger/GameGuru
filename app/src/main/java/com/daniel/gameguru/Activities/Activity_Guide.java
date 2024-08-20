@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Activity_Guide extends AppCompatActivity {
 
-    private MaterialTextView guideTitleTextView, categoryTextView;
+    private MaterialTextView guideTitleTextView;
     private WebView guideContentWebView;
     private MaterialTextView gameNameLink, authorUsername;
     private String gameId;
@@ -179,7 +179,9 @@ public class Activity_Guide extends AppCompatActivity {
         guideContentWebView.loadDataWithBaseURL(null, guide.getContent(), "text/html", "UTF-8", null);
 
 
-
+        if(mAuth.getCurrentUser() == null){
+            return;
+        }
         // Show or hide the edit button based on the user's ownership of the guide
         if (guide.getAuthorId().equals(mAuth.getCurrentUser().getUid())) {
             fabEditGuide.setVisibility(View.VISIBLE);

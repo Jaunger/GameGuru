@@ -71,7 +71,7 @@ public class Activity_Search extends AppCompatActivity {
         guideResultsRecycler.setLayoutManager(new LinearLayoutManager(this));
         guideResultsRecycler.setAdapter(guideAdapter);
 
-        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
+        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_search);
     }
 

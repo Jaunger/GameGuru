@@ -187,7 +187,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
     }
 
     private void initView() {
-        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
+        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_create);
         mAddImage.setOnClickListener(v -> pickMedia.launch(new PickVisualMediaRequest.Builder()
                 .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
