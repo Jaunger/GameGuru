@@ -118,8 +118,8 @@ public class DbManager {
 
     public static void searchGames(String query, FireStoreCallback<List<Game>> callBack) {
         getFireStoreInstance().collection("games")
-                .whereGreaterThanOrEqualTo("title", query)
-                .whereLessThanOrEqualTo("title", query + "\uf8ff")
+                .whereGreaterThanOrEqualTo("lowercasename", query.toLowerCase())
+                .whereLessThanOrEqualTo("lowercasename", query.toLowerCase() + "\uf8ff")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

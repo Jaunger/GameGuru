@@ -12,6 +12,7 @@ public class Game {
     private List<String> genres; // This can be a list if needed, but as per your previous code, it's a single string
     private String imageUrl;
     private String description;
+    private String lowercaseName;
     private HashMap<String,Integer> guideIds;
 
     public Game() {}
@@ -100,6 +101,15 @@ public class Game {
 
     public Game addGuideId(String guideId) {
         this.guideIds.put(guideId, 1);
+        return this;
+    }
+
+    public String getLowercaseName() {
+        return lowercaseName;
+    }
+
+    public Game setLowercaseName(String lowercaseName) {
+        this.lowercaseName = lowercaseName;
         return this;
     }
 }

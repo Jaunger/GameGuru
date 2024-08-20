@@ -167,7 +167,8 @@ public class Activity_Guide extends AppCompatActivity {
     }
 
     private void populateGuideData(Guide guide) {
-        guideTitleTextView.setText(guide.getTitle());
+        String isDraft = guide.getIsPublished().equals("true") ? "" : " (Draft)";
+        guideTitleTextView.setText(String.format("%s  %s", guide.getTitle() , isDraft));
         gameNameLink.setText(guide.getGameName());
 
         guideContentWebView.loadDataWithBaseURL(null, guide.getContent(), "text/html", "UTF-8", null);
