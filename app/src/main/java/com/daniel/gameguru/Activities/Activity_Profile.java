@@ -8,9 +8,12 @@ import android.view.View;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.daniel.gameguru.Fragments.GuideListFragment;
+import com.daniel.gameguru.Adapters.GuideAdapter;
+import com.daniel.gameguru.Entities.Guide;
 import com.daniel.gameguru.R;
 import com.daniel.gameguru.Utilities.DbManager;
 import com.daniel.gameguru.Utilities.NavigationBarManager;
@@ -22,14 +25,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Activity_Profile extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private ShapeableImageView profileImage;
     private MaterialTextView userName;
-    private MaterialTextView userDescription;
+    private MaterialTextView userDescription, myGuidesTitle;
     private AppCompatImageButton editProfileButton;
     private MaterialButton logoutButton, followButton;
+    private RecyclerView guideRecyclerView;
+    private GuideAdapter guideAdapter;
+    private List<Guide> guideList;
     private FirebaseFirestore firestore;
     private String userUid;
 
@@ -62,36 +71,24 @@ public class Activity_Profile extends AppCompatActivity {
         editProfileButton = findViewById(R.id.editProfileButton);
         logoutButton = findViewById(R.id.logoutButton);
         followButton = findViewById(R.id.followButton);
+        myGuidesTitle = findViewById(R.id.myGuidesTitle);
+        guideRecyclerView = findViewById(R.id.guideRecyclerView);
     }
 
     private void initViews() {
         NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_account);
-        GuideListFragment guideListFragment = new GuideListFragment();
-        guideListFragment.setAuthorId(userUid);
-        getSupportFragmentManager().beginTransaction().replace(R.id.guideListFragment, guideListFragment).commit();
+
+        guideList = new ArrayList<>();
+        guideAdapter = new GuideAdapter(guideList);
+        guideRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        guideRecyclerView.setAdapter(guideAdapter);
 
         logoutButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(Activity_Profile.this, Activity_Login.class);
             startActivity(intent);
             finish();
-        });
-
-        DbManager.isCurrentUser(userUid, isCurrentUser -> {
-            if (isCurrentUser) {
-                editProfileButton.setVisibility(View.VISIBLE);
-                logoutButton.setVisibility(View.VISIBLE);
-                followButton.setVisibility(View.GONE);
-            } else {
-                editProfileButton.setVisibility(View.GONE);
-                logoutButton.setVisibility(View.GONE);
-                followButton.setVisibility(View.VISIBLE);
-
-                DbManager.isFollowing(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow"));
-
-                followButton.setOnClickListener(v -> DbManager.toggleFollow(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow")));
-            }
         });
 
         editProfileButton.setOnClickListener(v -> {
@@ -123,8 +120,39 @@ public class Activity_Profile extends AppCompatActivity {
 
                 userName.setText(name);
                 userDescription.setText(description);
+                DbManager.isCurrentUser(userUid, isCurrentUser -> {
+                    if (isCurrentUser) {
+                        editProfileButton.setVisibility(View.VISIBLE);
+                        logoutButton.setVisibility(View.VISIBLE);
+                        followButton.setVisibility(View.GONE);
+                        myGuidesTitle.setText("My Guides");
+                        loadGuides(false); // Load all guides
+                    } else {
+                        editProfileButton.setVisibility(View.GONE);
+                        logoutButton.setVisibility(View.GONE);
+                        followButton.setVisibility(View.VISIBLE);
+                        myGuidesTitle.setText(String.format("%s's Guides", userName.getText().toString()));
+
+                        DbManager.isFollowing(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow"));
+
+                        followButton.setOnClickListener(v -> DbManager.toggleFollow(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow")));
+                        loadGuides(true); // Load only published guides
+                    }
+                });
             } else {
                 Log.d("FireStore", "Error getting documents: ", task.getException());
+            }
+        });
+    }
+
+    private void loadGuides(boolean onlyPublished) {
+        DbManager.getGuidesByAuthor(userUid, onlyPublished, guides -> {
+            if (guides != null) {
+                guideList.clear();
+                guideList.addAll(guides);
+                guideAdapter.notifyDataSetChanged();
+            } else {
+                Log.e("Activity_Profile", "Failed to load guides");
             }
         });
     }

@@ -25,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.daniel.gameguru.R;
+import com.daniel.gameguru.Utilities.DbManager;
 import com.daniel.gameguru.Utilities.NavigationBarManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
@@ -54,7 +55,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
     private MaterialButton mBold, mItalic, mUnderline, mInsertImage, mTextColor, mInsertLink, mUndo, mRedo;
     private MaterialButton mSaveAsDraftButton, mPublishButton, mAddImage;
     private BottomNavigationView bottomNavigationView;
-    private TextInputEditText guideTitleInput, categoryInput;
+    private TextInputEditText guideTitleInput;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private AutoCompleteTextView gameNameInput;
@@ -62,6 +63,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
     private final String TAG = "Activity_CreateGuide";
     private Uri selectedImageUri;
     private int selectedImageWidth;
+    private String loadedGuideId;
     private boolean changedColor = false;
 
     @Override
@@ -74,11 +76,30 @@ public class Activity_CreateGuide extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+       loadedGuideId = getIntent().getStringExtra("guideId");
+
+
         findViews();
         initView();
 
+        if (loadedGuideId != null) {
+            DbManager.loadGuideData(loadedGuideId, guideData -> {
+                if (guideData != null) {
+                    guideTitleInput.setText(guideData.getTitle());
+                    gameNameInput.setText(guideData.getGameName());
+                    mEditor.setHtml(guideData.getContent());
+                    if (guideData.getImageUrl() != null) {
+                        selectedImageUri = Uri.parse(guideData.getImageUrl());
+                    }
+                }else {
+                    Toast.makeText(this, "Failed to load guide data", Toast.LENGTH_SHORT).show();
+                }
 
+            });
+        }
     }
+
+
 
     public void setupUI(View view) {
         KeyboardVisibilityEvent.setEventListener(
@@ -124,8 +145,6 @@ public class Activity_CreateGuide extends AppCompatActivity {
         mAddImage = findViewById(R.id.addImageButton);
         gameNameInput = findViewById(R.id.gameNameInput);
         guideTitleInput = findViewById(R.id.guideTitleInput);
-        categoryInput = findViewById(R.id.categoryInput);
-
     }
     private void setupAutoComplete() {
         List<String> gameTitles = new ArrayList<>();
@@ -138,7 +157,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() >= 2) { // Minimum 2 characters to start suggesting
+                if (charSequence.length() >= 1) {
                     fetchGamesFromFireStore(charSequence.toString());
                 }
             }
@@ -282,8 +301,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
                     if (type == 0){
                         selectedImageUri = uri1;
                 }else if(type == 1){
-                        int height = selectedImageWidth * 2;
-                        mEditor.insertImage(uri1.toString(), "Image", selectedImageWidth,height);
+                        mEditor.insertImage(uri1.toString(), "Image", selectedImageWidth);
                     }
                     Toast.makeText(Activity_CreateGuide.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
 
@@ -337,17 +355,22 @@ public class Activity_CreateGuide extends AppCompatActivity {
     }
     private void saveGuide(boolean isPublished) {
 
-        if (guideTitleInput.getText() == null || categoryInput.getText() == null) {
+        if (guideTitleInput.getText() == null) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
         String title = guideTitleInput.getText().toString();
-        String gameName = gameNameInput.getText().toString();
-        String category = categoryInput.getText().toString();
-        String content = mEditor.getHtml();
+        DbManager.isGuideTitleUnique(title, isUnique -> {
+            if (!isUnique && loadedGuideId == null) {
+                Toast.makeText(this, "Guide title already exists", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String gameName = gameNameInput.getText().toString();
+            String content = mEditor.getHtml();
 
 
-        if (title.isEmpty() || gameName.isEmpty() || category.isEmpty() || content.isEmpty()) {
+        if (title.isEmpty() || gameName.isEmpty() || content.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -355,36 +378,33 @@ public class Activity_CreateGuide extends AppCompatActivity {
         getGameIdFromName(gameName, gameId -> {
             if (gameId == null) {
                 Toast.makeText(this, "Game not found", Toast.LENGTH_SHORT).show();
-            } else db.collection("guides").add(new HashMap<>())
-                    .addOnSuccessListener(documentReference -> {
-                        String guideId = documentReference.getId();
+            } else {
+                String guideId = loadedGuideId != null ? loadedGuideId : db.collection("guides").document().getId();
+                Map<String, Object> guideData = new HashMap<>();
+                guideData.put("id", guideId);
+                guideData.put("title", title);
+                guideData.put("gameId", gameId); // Associate the guide with the game
+                guideData.put("imageUrl", selectedImageUri != null ? selectedImageUri.toString() : null);
+                guideData.put("gameName", gameName);
+                guideData.put("content", content);
+                if(mAuth.getCurrentUser() != null)
+                    guideData.put("authorId", mAuth.getCurrentUser().getUid());
+                guideData.put("isPublished", isPublished ? "true" : "false");
+                guideData.put("timestamp", System.currentTimeMillis());
 
-                        Map<String, Object> guideData = new HashMap<>();
-                        guideData.put("id", guideId);
-                        guideData.put("title", title);
-                        guideData.put("gameId", gameId); // Associate the guide with the game
-                        guideData.put("imageUrl", selectedImageUri != null ? selectedImageUri.toString() : null);
-                        guideData.put("gameName", gameName);
-                        guideData.put("category", category);
-                        guideData.put("content", content);
-                        if(mAuth.getCurrentUser() != null)
-                            guideData.put("authorId", mAuth.getCurrentUser().getUid());
-                        guideData.put("isPublished", isPublished);
-                        guideData.put("timestamp", System.currentTimeMillis());
-
-                        documentReference.set(guideData)
-                                .addOnSuccessListener(aVoid -> {
-                                    updateGameWithGuide(gameId, guideId);
-                                    Toast.makeText(this, isPublished ? "Guide published" : "Guide saved as draft", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(this, Activity_Profile.class);
-                                    startActivity(intent);
-                                    finish();
-                                })
-                                .addOnFailureListener(e -> Toast.makeText(this, "Failed to save guide: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                    })
-                    .addOnFailureListener(e -> Toast.makeText(this, "Failed to create guide: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                db.collection("guides").document(guideId).set(guideData)
+                        .addOnSuccessListener(aVoid -> {
+                            updateGameWithGuide(gameId, guideId);
+                            Toast.makeText(this, isPublished ? "Guide published" : "Guide saved as draft", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(this, Activity_Profile.class);
+                            startActivity(intent);
+                            finish();
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(this, "Failed to save guide: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
         });
-    }
+    });
+}
 
     private void updateGameWithGuide(String gameId, String guideId) {
         DocumentReference gameRef = db.collection("games").document(gameId);

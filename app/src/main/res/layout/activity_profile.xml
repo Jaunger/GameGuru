@@ -92,13 +92,13 @@
         android:textColor="?attr/android:textColorPrimary"/>
 
     <!-- Guides Fragment Container -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/guideListFragment"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/guideRecyclerView"
         android:name="com.daniel.gameguru.Fragments.GuideListFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:layout="@layout/fragment_guide_list" />
+        tools:listitem="@layout/item_guide" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/logoutButton"

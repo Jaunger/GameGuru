@@ -126,7 +126,6 @@ public class Activity_Guide extends AppCompatActivity {
     private void findViews() {
         guideTitleTextView = findViewById(R.id.guideTitleTextView);
         gameNameLink = findViewById(R.id.gameNameLink);
-        categoryTextView = findViewById(R.id.categoryTextView);
         guideContentWebView = findViewById(R.id.guideContentWebView);
         //guideImageView = findViewById(R.id.guideImageView);
         fabEditGuide = findViewById(R.id.fabEditGuide);
@@ -175,7 +174,6 @@ public class Activity_Guide extends AppCompatActivity {
     private void populateGuideData(Guide guide) {
         guideTitleTextView.setText(guide.getTitle());
         gameNameLink.setText(guide.getGameName());
-        categoryTextView.setText(guide.getCategory());
 
         // Load HTML content into the WebView
         guideContentWebView.loadDataWithBaseURL(null, guide.getContent(), "text/html", "UTF-8", null);

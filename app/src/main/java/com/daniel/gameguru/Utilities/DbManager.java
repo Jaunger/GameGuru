@@ -22,6 +22,8 @@ import java.util.Map;
 public class DbManager {
 
 
+
+
     public interface FireStoreCallback<T> {
         void res(T value);
     }
@@ -219,6 +221,7 @@ public class DbManager {
 
     public static void getFeaturedGuides(FireStoreCallbackList callBack) {
         getFireStoreInstance().collection("guides")
+                .whereEqualTo("isPublished","true")
                 .get()
                 .addOnSuccessListener(featGuides -> {
                     List<Guide> guides = featGuides.toObjects(Guide.class);
@@ -360,9 +363,73 @@ public class DbManager {
         });
     }
 
+    public static void loadGuideData(String guideId,FireStoreCallback<Guide> callBack) {
+        getFireStoreInstance().collection("guides").document(guideId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Guide guide = documentSnapshot.toObject(Guide.class);
+                        callBack.res(guide);
+                    }else {
+                        callBack.res(null);
+                    }
 
 
-
-
-
+                })
+                .addOnFailureListener(e -> {
+                    Log.d("Guide", "failed to load guide");
+                    callBack.res(null);
+                });
     }
+
+    public static void isGuideTitleUnique(String title, FireStoreCallback<Boolean> callback) {
+        getFireStoreInstance().collection("guides")
+                .whereEqualTo("title", title)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        callback.res(task.getResult().isEmpty());
+                    } else {
+                        callback.res(true);  // Assume it's unique if the query fails
+                    }
+                });
+    }
+
+    public static void getGuidesByAuthor(String userUid, boolean onlyPublished, FireStoreCallback<List<Guide>> callback) {
+        getFireStoreInstance().collection("guides")
+                .whereEqualTo("authorId", userUid)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot snapshot = task.getResult();
+                        if (snapshot != null) {
+                            List<Guide> guides = snapshot.toObjects(Guide.class);
+                            if(guides.isEmpty()){
+                                callback.res(guides);
+                                return;
+                            }
+                            isCurrentUser(guides.get(0).getAuthorId(), isCurrentUser -> {
+                                if(isCurrentUser) {
+                                    callback.res(guides);
+                                }else {
+                                    List<Guide> publishedGuides = new ArrayList<>();
+                                    for (Guide guide : guides) {
+                                        if (guide.getIsPublished().equals("true")) {
+                                            publishedGuides.add(guide);
+                                        }
+                                    }
+                                    callback.res(publishedGuides);
+                                }
+
+                            });
+                        } else {
+                            callback.res(null);
+                        }
+                    } else {
+                        callback.res(null);
+                    }
+                });
+    }
+
+
+
+}

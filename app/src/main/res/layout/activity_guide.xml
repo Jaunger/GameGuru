@@ -71,7 +71,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/gameNameLink"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:text="Game Name"
                 android:textSize="20sp"
 
@@ -84,7 +84,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/authorUsername"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:text="Author"
                 android:textSize="20sp"
 
@@ -95,21 +95,12 @@
                 android:layout_marginBottom="16dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <!-- Category -->
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/categoryTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textSize="16sp"
-                android:textColor="?attr/android:textColorSecondary"
-                android:text="Category" />
 
             <!-- Guide Content WebView -->
             <WebView
                 android:id="@+id/guideContentWebView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="?attr/android:colorBackground" />
 

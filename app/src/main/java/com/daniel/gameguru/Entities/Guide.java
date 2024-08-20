@@ -3,31 +3,28 @@ package com.daniel.gameguru.Entities;
 public class Guide {
     private String id;
     private String title;
-    private String imageUrl;
-    private String gameName;
-    private String gameId;
-    private String category;
     private String content;
+    private String gameId;
+    private String gameName;
     private String authorId;
-    private boolean isPublished;
+    private String imageUrl;
     private long timestamp;
+    private String isPublished;
 
     public Guide() {
 
     }
 
-    // Constructor with parameters
-    public Guide(String id, String title, String imageUrl, String gameName, String gameId, String category, String content, String authorId, boolean isPublished, long timestamp) {
-        this.id = id;
+    public Guide(String title, String id, String content, String gameId, String gameName, String authorId, String imageUrl, long timestamp, String isPublished) {
         this.title = title;
-        this.imageUrl = imageUrl;
-        this.gameName = gameName;
-        this.gameId = gameId;
-        this.category = category;
+        this.id = id;
         this.content = content;
+        this.gameId = gameId;
+        this.gameName = gameName;
         this.authorId = authorId;
-        this.isPublished = isPublished;
+        this.imageUrl = imageUrl;
         this.timestamp = timestamp;
+        this.isPublished = isPublished;
     }
 
     // Getters and setters for the ID
@@ -63,13 +60,7 @@ public class Guide {
         this.gameName = gameName;
     }
 
-    public String getCategory() {
-        return category;
-    }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     public String getContent() {
         return content;
@@ -87,13 +78,14 @@ public class Guide {
         this.authorId = authorId;
     }
 
-    public boolean isPublished() {
+    public String getIsPublished() {
         return isPublished;
     }
 
-    public void setPublished(boolean published) {
-        isPublished = published;
+    public void setIsPublished(String isPublished) {
+        this.isPublished = isPublished;
     }
+
 
     public long getTimestamp() {
         return timestamp;

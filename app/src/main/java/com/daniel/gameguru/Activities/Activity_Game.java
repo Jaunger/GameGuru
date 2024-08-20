@@ -111,12 +111,15 @@ public class Activity_Game extends AppCompatActivity {
         }
         List<String> Ids = new ArrayList<>(guideIds.keySet());
         for (String guideId : Ids) {
-            db.collection("guides").document(guideId).get()
+            db.collection("guides").document(guideId)
+                    .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         Guide guide = documentSnapshot.toObject(Guide.class);
                         if (guide != null) {
-                            relatedGuides.add(guide);
-                            guideAdapter.notifyItemRangeInserted(intCount, relatedGuides.size());
+                            if(guide.getIsPublished().equals("true")) {
+                                relatedGuides.add(guide);
+                                guideAdapter.notifyItemRangeInserted(intCount, relatedGuides.size());
+                            }
                         }
                     })
                     .addOnFailureListener(e -> {
