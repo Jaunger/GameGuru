@@ -8,7 +8,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -88,10 +87,10 @@ public class Activity_Search extends AppCompatActivity {
         });
     }
 
-    private void searchGuides(@NonNull String query) {
+    private void searchGuides(String query) {
 
         guideResults.clear();
-        gameAdapter.notifyDataSetChanged();
+        guideAdapter.notifyItemRemoved(0);
         if (!query.isEmpty()) {
             DbManager.searchGuides(query, results -> {
                 if (results != null && !results.isEmpty()) {
@@ -105,9 +104,9 @@ public class Activity_Search extends AppCompatActivity {
         }
     }
 
-    private void searchGames(@NonNull String query) {
+    private void searchGames(String query) {
         gameResults.clear();
-        gameAdapter.notifyDataSetChanged();
+        gameAdapter.notifyItemRemoved(0);
         if (!query.isEmpty()) {
             DbManager.searchGames(query, results -> {
                 if (results != null && !results.isEmpty()) {

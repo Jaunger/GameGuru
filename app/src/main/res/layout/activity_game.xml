@@ -92,7 +92,7 @@
                 android:id="@+id/relatedGuidesLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Related Guides"
+                android:text="@string/related_guides"
                 android:textSize="20sp"
                 android:textColor="?attr/android:textColorPrimary"
                 android:layout_marginBottom="8dp"

@@ -60,9 +60,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
     public static class GameViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView gameThumbnail;
-        private TextView gameTitle;
-        private TextView gameGenre;
+        private final ImageView gameThumbnail;
+        private final TextView gameTitle;
+        private final TextView gameGenre;
 
         public GameViewHolder(@NonNull View itemView) {
             super(itemView);

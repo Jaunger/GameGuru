@@ -15,13 +15,13 @@
         android:layout_height="150dp"
         android:src="@drawable/ic_app"
         android:layout_marginBottom="24dp"
-        android:contentDescription="App Icon"/>
+        android:contentDescription="@string/app_icon"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GameGuru"
+        android:text="@string/gameguru"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Email"
+        android:hint="@string/email"
         app:boxStrokeColor="@android:color/black"
         app:boxBackgroundMode="outline"
         >
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
 
-        android:hint="Password"
+        android:hint="@string/password"
         app:boxStrokeColor="@android:color/black"
         app:boxBackgroundMode="outline"
         app:endIconMode="password_toggle">
@@ -70,7 +70,7 @@
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/login"
         android:textStyle="bold"
         android:textColor="@android:color/black"
         android:backgroundTint="@android:color/holo_orange_dark"
@@ -81,7 +81,7 @@
         android:id="@+id/registerRedirect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account? Register here"
+        android:text="@string/don_t_have_an_account_register_here"
         android:textColor="@android:color/white"
         android:layout_marginTop="16dp"
         />

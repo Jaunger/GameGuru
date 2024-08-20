@@ -35,7 +35,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:text="Create guide"
+                        android:text="@string/create_guide"
                         android:textSize="24sp"
                         android:textStyle="bold"
                         android:textColor="?attr/colorOnSurface" />
@@ -51,7 +51,7 @@
                         android:id="@+id/guideTitleInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Add a title"
+                        android:hint="@string/add_a_title"
                         android:inputType="text"
                         android:textColor="?attr/colorOnSurface"
                         android:backgroundTint="?attr/colorPrimary" />
@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:hint="Select game"
+                        android:hint="@string/select_game"
                         android:inputType="text"
                         android:textColor="?attr/colorOnSurface"
                         android:backgroundTint="?attr/colorPrimary" />
@@ -94,7 +94,7 @@
                             android:id="@+id/action_bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="B"
+                            android:text="@string/b"
                             android:textStyle="bold"
                             android:textColor="?attr/colorOnPrimary"
                             android:backgroundTint="?attr/colorPrimary" />
@@ -104,7 +104,7 @@
                             android:id="@+id/action_italic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="I"
+                            android:text="@string/i"
                             android:textStyle="italic"
                             android:textColor="?attr/colorOnPrimary"
                             android:backgroundTint="?attr/colorPrimary" />
@@ -114,7 +114,7 @@
                             android:id="@+id/action_underline"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="U"
+                            android:text="@string/u"
                             android:textColor="?attr/colorOnPrimary"
                             android:backgroundTint="?attr/colorPrimary" />
 
@@ -123,7 +123,7 @@
                             android:id="@+id/action_text_color"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Color"
+                            android:text="@string/color"
                             android:textColor="?attr/colorOnPrimary"
                             android:backgroundTint="?attr/colorPrimary" />
 
@@ -132,7 +132,7 @@
                             android:id="@+id/action_insert_image"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Image"
+                            android:text="@string/image"
                             android:textColor="?attr/colorOnPrimary"
                             android:backgroundTint="?attr/colorPrimary" />
 
@@ -141,7 +141,7 @@
                             android:id="@+id/action_insert_link"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Link"
+                            android:text="@string/link"
                             android:textColor="?attr/colorOnPrimary"
                             android:backgroundTint="?attr/colorPrimary" />
 
@@ -150,7 +150,7 @@
                             android:id="@+id/action_undo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Undo"
+                            android:text="@string/undo"
                             android:textColor="?attr/colorOnPrimary"
                             android:backgroundTint="?attr/colorSecondary" />
 
@@ -159,7 +159,7 @@
                             android:id="@+id/action_redo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Redo"
+                            android:text="@string/redo"
                             android:textColor="?attr/colorOnPrimary"
                             android:backgroundTint="?attr/colorSecondary" />
 
@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="10dp"
-                        android:hint="Write your guide..."
+                        android:hint="@string/write_your_guide"
                         android:textColor="?attr/colorOnSurface"
                         android:background="?attr/colorSurface" />
                 </com.google.android.material.card.MaterialCardView>
@@ -188,7 +188,7 @@
                     android:id="@+id/addImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Image"
+                    android:text="@string/add_image"
                     android:textColor="?attr/colorOnPrimary"
                     android:backgroundTint="?attr/colorPrimary"
                     android:layout_marginBottom="16dp" />
@@ -209,7 +209,7 @@
                 android:id="@+id/saveAsDraftButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save as Draft"
+                android:text="@string/save_as_draft"
                 android:textColor="?attr/colorOnPrimary"
                 android:backgroundTint="?attr/colorSecondary"
                 android:layout_marginEnd="8dp" />
@@ -218,7 +218,7 @@
                 android:id="@+id/publishButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Publish"
+                android:text="@string/publish"
                 android:textColor="?attr/colorOnPrimary"
                 android:backgroundTint="?attr/colorPrimary" />
         </androidx.appcompat.widget.LinearLayoutCompat>

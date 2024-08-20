@@ -17,7 +17,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_alignParentEnd="true"
-            android:contentDescription="Guide Image"
+            android:contentDescription="@string/guide_image"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_app"
             />
@@ -30,7 +30,7 @@
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/guideImage"
             android:layout_marginEnd="16dp"
-            android:text="Guide Name"
+            android:text="@string/guide_name"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -43,7 +43,7 @@
             android:layout_below="@id/guideTitle"
             android:layout_alignParentStart="true"
             android:layout_marginTop="8dp"
-            android:text="Open Guide"
+            android:text="@string/open_guide"
             android:backgroundTint="@android:color/holo_orange_dark"
             android:textColor="@android:color/white"
             android:textSize="14sp" />

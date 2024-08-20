@@ -125,7 +125,7 @@ public class Activity_Profile extends AppCompatActivity {
                         editProfileButton.setVisibility(View.VISIBLE);
                         logoutButton.setVisibility(View.VISIBLE);
                         followButton.setVisibility(View.GONE);
-                        myGuidesTitle.setText("My Guides");
+                        myGuidesTitle.setText(String.format("%s","My Guides"));
                         loadGuides(false); // Load all guides
                     } else {
                         editProfileButton.setVisibility(View.GONE);
@@ -150,7 +150,7 @@ public class Activity_Profile extends AppCompatActivity {
             if (guides != null) {
                 guideList.clear();
                 guideList.addAll(guides);
-                guideAdapter.notifyDataSetChanged();
+                guideAdapter.notifyItemRangeInserted(0,guideAdapter.getItemCount());
             } else {
                 Log.e("Activity_Profile", "Failed to load guides");
             }
