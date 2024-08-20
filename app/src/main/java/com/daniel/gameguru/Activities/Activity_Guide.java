@@ -41,11 +41,9 @@ public class Activity_Guide extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
 
-        // Initialize Firebase
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        // Get guideId from Intent
         guideId = getIntent().getStringExtra("guideId");
         gameId = getIntent().getStringExtra("gameId");
         authorId = getIntent().getStringExtra("authorId");
@@ -72,7 +70,6 @@ public class Activity_Guide extends AppCompatActivity {
 
         loadGuideData();
 
-        // Setup edit button (only if the user is the author)
         fabEditGuide.setOnClickListener(v -> {
             Intent editIntent = new Intent(Activity_Guide.this, Activity_CreateGuide.class);
             editIntent.putExtra("guideId", guideId);
@@ -88,11 +85,10 @@ public class Activity_Guide extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 String url = request.getUrl().toString();
-                // Check if the URL is a valid link and open it in the external browser
                 if (URLUtil.isValidUrl(url)) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(intent);
-                    return true; // Indicate that the event is handled
+                    return true;
                 }
                 return false;
             }
@@ -127,7 +123,6 @@ public class Activity_Guide extends AppCompatActivity {
         guideTitleTextView = findViewById(R.id.guideTitleTextView);
         gameNameLink = findViewById(R.id.gameNameLink);
         guideContentWebView = findViewById(R.id.guideContentWebView);
-        //guideImageView = findViewById(R.id.guideImageView);
         fabEditGuide = findViewById(R.id.fabEditGuide);
         authorUsername = findViewById(R.id.authorUsername);
     }
@@ -175,14 +170,12 @@ public class Activity_Guide extends AppCompatActivity {
         guideTitleTextView.setText(guide.getTitle());
         gameNameLink.setText(guide.getGameName());
 
-        // Load HTML content into the WebView
         guideContentWebView.loadDataWithBaseURL(null, guide.getContent(), "text/html", "UTF-8", null);
 
 
         if(mAuth.getCurrentUser() == null){
             return;
         }
-        // Show or hide the edit button based on the user's ownership of the guide
         if (guide.getAuthorId().equals(mAuth.getCurrentUser().getUid())) {
             fabEditGuide.setVisibility(View.VISIBLE);
         } else {

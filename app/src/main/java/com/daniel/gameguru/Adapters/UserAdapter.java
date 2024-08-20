@@ -46,7 +46,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 .placeholder(R.drawable.img_white)
                 .into(holder.userImage);
 
-        // Set the item click listener
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, Activity_Profile.class);
             intent.putExtra("authorId", user.getId());

@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="?attr/android:colorBackground">
 
-    <!-- App Bar with Title -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +36,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,7 +47,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- Guide Title -->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/guideTitleTextView"
                 android:layout_width="match_parent"
@@ -67,7 +64,6 @@
                 >
 
 
-            <!-- Game Name -->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/gameNameLink"
                 android:layout_width="wrap_content"
@@ -96,7 +92,6 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            <!-- Guide Content WebView -->
             <WebView
                 android:id="@+id/guideContentWebView"
                 android:layout_width="wrap_content"
@@ -107,7 +102,6 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Floating Action Button for Editing (if applicable) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabEditGuide"
         android:layout_width="wrap_content"

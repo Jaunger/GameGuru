@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
-    <!-- Link Text Input -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/linkTextInputLayout"
         android:layout_width="0dp"
@@ -21,7 +20,6 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- URL Input -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/linkUrlInputLayout"
         android:layout_width="0dp"
@@ -39,7 +37,6 @@
             android:inputType="textUri" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Buttons -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,14 +45,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp">
 
-        <!-- Cancel Button -->
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel" />
 
-        <!-- Submit Button -->
         <Button
             android:id="@+id/submitButton"
             android:layout_width="wrap_content"

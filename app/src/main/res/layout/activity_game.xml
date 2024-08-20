@@ -6,15 +6,11 @@
     android:background="?attr/android:colorBackground">
 
 
-
-
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- App Bar with Toolbar -->
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +28,6 @@
 
 
             </com.google.android.material.appbar.AppBarLayout>
-            <!-- Game Banner -->
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -46,7 +41,6 @@
             android:layout_height="100dp"
             android:scaleType="fitCenter"
             android:layout_marginBottom="16dp" />
-            <!-- Game Title and Details -->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/gameTitle"
                 android:layout_width="match_parent"
@@ -66,7 +60,6 @@
                 android:textColor="?attr/android:textColorSecondary"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Game Description -->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/gameDescription"
                 android:layout_width="match_parent"
@@ -76,7 +69,6 @@
                 android:textColor="?attr/android:textColorPrimary"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Genre Buttons Container -->
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/genresContainer"
                 android:layout_width="match_parent"
@@ -84,10 +76,8 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="16dp"
                 android:gravity="center_vertical">
-                <!-- Genre Buttons will be added dynamically here -->
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <!-- Related Guides Section -->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/relatedGuidesLabel"
                 android:layout_width="match_parent"

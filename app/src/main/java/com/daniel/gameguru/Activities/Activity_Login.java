@@ -51,7 +51,6 @@ public class Activity_Login extends AppCompatActivity {
     }
 
     public void setupUI(View view) {
-        // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
                 hideKeyboard(Activity_Login.this);
@@ -133,7 +132,6 @@ public class Activity_Login extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
                         Log.d("Activity_Login", "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent = new Intent(this, Activity_Home.class);
@@ -141,7 +139,6 @@ public class Activity_Login extends AppCompatActivity {
                         finish();
                         updateUI(user);
                     } else {
-                        // If sign in fails, display a message to the user.
                         Log.w("Activity_Login", "signInWithEmail:failure", task.getException());
                         Toast.makeText(Activity_Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         updateUI(null);
@@ -159,7 +156,6 @@ public class Activity_Login extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Log.d("Activity_Login", "User signed in: " + user.getUid());
-            // You can further update UI elements here, such as showing user-specific info
         } else {
             Log.d("Activity_Login", "User sign-in failed or signed out.");
         }

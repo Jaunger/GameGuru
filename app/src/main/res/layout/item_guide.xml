@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Guide Image -->
         <ImageView
             android:id="@+id/guideImage"
             android:layout_width="80dp"
@@ -22,7 +21,6 @@
             android:src="@drawable/ic_app"
             />
 
-        <!-- Guide Title -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/guideTitle"
             android:layout_width="wrap_content"
@@ -35,7 +33,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- Open Guide Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/openGuideButton"
             android:layout_width="wrap_content"

@@ -31,7 +31,6 @@ public class DbManager {
         void res(List<Guide> guides);
     }
 
-    // FireStore instance
     private static FirebaseFirestore getFireStoreInstance() {
         return FirebaseFirestore.getInstance();
     }
@@ -91,7 +90,6 @@ public class DbManager {
         });
         callBack.res(false);
     }
-    // Search for guides by title in FireStore
     public static void searchGuides(String query, FireStoreCallback<List<Guide>> callBack) {
         getFireStoreInstance().collection("guides")
                 .whereGreaterThanOrEqualTo("title", query)
@@ -169,7 +167,6 @@ public class DbManager {
                 });
     }
 
-    // Get a specific user's name from FireStore
     public static void getUserName(FireStoreCallback<String> callBack) {
         String userUid = getCurrentId();
         if (userUid == null) return;

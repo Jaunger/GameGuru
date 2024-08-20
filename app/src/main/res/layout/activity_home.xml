@@ -14,7 +14,6 @@
         android:padding="32dp"
         android:orientation="vertical">
 
-        <!-- Welcome Message -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/welcome_text"
             android:layout_width="wrap_content"
@@ -25,7 +24,6 @@
             android:textColor="?attr/android:textColorPrimary"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Featured Guides -->
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +42,6 @@
             android:scrollbars="horizontal"
             tools:listitem="@layout/item_guide" />
 
-        <!-- Recently Viewed Guides -->
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +62,6 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

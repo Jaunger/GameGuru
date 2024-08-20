@@ -39,7 +39,6 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.GuideViewHol
         holder.guideTitle.setText(guide.getTitle());
 
 
-        // Load the guide image using Glide
         Glide.with(holder.itemView.getContext())
                 .load(guide.getImageUrl())
                 .placeholder(R.drawable.img_white)

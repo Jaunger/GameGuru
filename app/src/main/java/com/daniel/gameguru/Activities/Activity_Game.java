@@ -1,6 +1,7 @@
 package com.daniel.gameguru.Activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -122,7 +123,7 @@ public class Activity_Game extends AppCompatActivity {
                         }
                     })
                     .addOnFailureListener(e -> {
-                        // Handle error
+                        Log.d("Firebase", "Error getting guide: " + e.getMessage());
                     });
         }
     }

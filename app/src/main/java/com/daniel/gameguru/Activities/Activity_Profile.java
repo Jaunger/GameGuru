@@ -51,7 +51,6 @@ public class Activity_Profile extends AppCompatActivity {
 
         firestore = FirebaseFirestore.getInstance();
         userUid = getIntent().getStringExtra("authorId");
-        Log.d("Activity_Profile", "Starting profile activity with authorId: " + userUid);
 
         findViews();
         initViews();
@@ -126,7 +125,7 @@ public class Activity_Profile extends AppCompatActivity {
                         logoutButton.setVisibility(View.VISIBLE);
                         followButton.setVisibility(View.GONE);
                         myGuidesTitle.setText(String.format("%s","My Guides"));
-                        loadGuides(false); // Load all guides
+                        loadGuides(false);
                     } else {
                         editProfileButton.setVisibility(View.GONE);
                         logoutButton.setVisibility(View.GONE);
@@ -136,7 +135,7 @@ public class Activity_Profile extends AppCompatActivity {
                         DbManager.isFollowing(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow"));
 
                         followButton.setOnClickListener(v -> DbManager.toggleFollow(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow")));
-                        loadGuides(true); // Load only published guides
+                        loadGuides(true); 
                     }
                 });
             } else {

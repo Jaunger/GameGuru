@@ -50,7 +50,6 @@ public class Activity_Register extends AppCompatActivity {
     }
 
     public void setupUI(View view) {
-        // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
                 hideKeyboard(Activity_Register.this);
@@ -116,7 +115,6 @@ public class Activity_Register extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
                         Log.d("RegisterActivity", "createUserWithEmail:success");
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser == null) {
@@ -130,7 +128,6 @@ public class Activity_Register extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        // If sign in fails, display a message to the user.
                         Log.w("RegisterActivity", "createUserWithEmail:failure", task.getException());
                         if (!task.isSuccessful()) {
                             handleAuthError(task);

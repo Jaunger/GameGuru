@@ -218,7 +218,6 @@ public class Activity_CreateGuide extends AppCompatActivity {
 
 
     private void showImageSizeDialog() {
-        // Create and configure the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.image_size_dialog, null);
         builder.setView(dialogView);
@@ -228,7 +227,6 @@ public class Activity_CreateGuide extends AppCompatActivity {
         RadioGroup sizeOptions = dialogView.findViewById(R.id.sizeOptions);
         Button selectImageButton = dialogView.findViewById(R.id.selectImageButton);
 
-        // Handle image selection
         selectImageButton.setOnClickListener(v -> {
             pickImageForEditor.launch(new PickVisualMediaRequest.Builder()
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
@@ -237,7 +235,6 @@ public class Activity_CreateGuide extends AppCompatActivity {
             int selectedSize = sizeOptions.getCheckedRadioButtonId();
             int imageWidth;
 
-            // Set image size based on selection
             if (selectedSize == R.id.radioSmall) {
                 imageWidth = 50; // Small size
             } else if (selectedSize == R.id.radioMedium) {
@@ -246,7 +243,6 @@ public class Activity_CreateGuide extends AppCompatActivity {
                 imageWidth = 200; // Large size
             }
 
-            // Save the image width to use later in uploadImageToStorage method
             selectedImageWidth = imageWidth;
 
             dialog.dismiss();
@@ -255,7 +251,6 @@ public class Activity_CreateGuide extends AppCompatActivity {
         dialog.show();
     }
     private void showLinkInputDialog() {
-        // Create and configure the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.insert_link_dialog, null);
         builder.setView(dialogView);
@@ -267,7 +262,6 @@ public class Activity_CreateGuide extends AppCompatActivity {
         Button submitButton = dialogView.findViewById(R.id.submitButton);
         Button cancelButton = dialogView.findViewById(R.id.cancelButton);
 
-        // Handle the Submit button click
         submitButton.setOnClickListener(v -> {
             if (linkTextInput.getText() == null || linkUrlInput.getText() == null) {
                 Toast.makeText(Activity_CreateGuide.this, "Please fill in both fields", Toast.LENGTH_SHORT).show();
@@ -283,7 +277,6 @@ public class Activity_CreateGuide extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-        // Handle the Cancel button click
         cancelButton.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
@@ -351,7 +344,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
     private void toggleButtonState(MaterialButton button) {
         boolean isSelected = button.isSelected();
         button.setSelected(!isSelected);
-        button.setAlpha(isSelected ? 1.0f : 0.5f); // Example: change opacity to show selection state
+        button.setAlpha(isSelected ? 1.0f : 0.5f);
     }
     private void saveGuide(boolean isPublished) {
 
@@ -374,7 +367,6 @@ public class Activity_CreateGuide extends AppCompatActivity {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
-        // Retrieve gameId for the selected game
         getGameIdFromName(gameName, gameId -> {
             if (gameId == null) {
                 Toast.makeText(this, "Game not found", Toast.LENGTH_SHORT).show();
