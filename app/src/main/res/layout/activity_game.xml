@@ -5,32 +5,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/android:colorBackground">
 
-    <!-- Scrollable content -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:layout_gravity="top">
+
+
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Game Banner -->
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/gameBannerImage"
+            <!-- App Bar with Toolbar -->
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:layout_marginBottom="16dp" />
+                android:layout_height="wrap_content"
 
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:title="Game Details"
+                    app:titleTextColor="?attr/colorOnPrimary" />
+
+
+            </com.google.android.material.appbar.AppBarLayout>
+            <!-- Game Banner -->
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/gameBannerImage"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="16dp" />
             <!-- Game Title and Details -->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/gameTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Game Title"
+                android:text="@string/game_title"
                 android:textSize="24sp"
                 android:textColor="?attr/android:textColorPrimary"
                 android:textStyle="bold"
@@ -40,7 +61,7 @@
                 android:id="@+id/gameDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Developer, Publisher, Release Date"
+                android:text="@string/developer_publisher_release_date"
                 android:textSize="14sp"
                 android:textColor="?attr/android:textColorSecondary"
                 android:layout_marginBottom="16dp" />
@@ -50,7 +71,7 @@
                 android:id="@+id/gameDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Game Description"
+                android:text="@string/game_description"
                 android:textSize="16sp"
                 android:textColor="?attr/android:textColorPrimary"
                 android:layout_marginBottom="16dp" />
@@ -71,7 +92,7 @@
                 android:id="@+id/relatedGuidesLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Related Guides"
+                android:text="@string/related_guides"
                 android:textSize="20sp"
                 android:textColor="?attr/android:textColorPrimary"
                 android:layout_marginBottom="8dp"
@@ -84,18 +105,9 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical"
                 tools:listitem="@layout/item_guide" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
-    </ScrollView>
 
-    <!-- Bottom Navigation -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:itemIconTint="?attr/colorControlActivated"
-        app:itemTextColor="?attr/colorControlActivated"
-        android:background="?attr/android:colorBackground"
-        app:labelVisibilityMode="unlabeled" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -20,7 +20,6 @@ import com.daniel.gameguru.Utilities.DbManager;
 import com.daniel.gameguru.Utilities.NavigationBarManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Activity_Home extends AppCompatActivity {
 
@@ -28,7 +27,6 @@ public class Activity_Home extends AppCompatActivity {
     private RecyclerView recentlyViewedGuidesRecycler;
     private TextView welcomeText;
     private BottomNavigationView bottomNavigationView;
-    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,6 @@ public class Activity_Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         overridePendingTransition(R.anim.dark_screen, R.anim.light_screen);
 
-        db = FirebaseFirestore.getInstance();
 
         setupUI(findViewById(R.id.homeParent));
         findViews();
@@ -91,12 +88,8 @@ public class Activity_Home extends AppCompatActivity {
         updateGuides();
     }
     private void updateGuides() {
-        DbManager.getFeaturedGuides(guideList -> {
-            featuredGuidesRecycler.setAdapter(new GuideAdapter(guideList));
-        });
-        DbManager.getRecentlyViewedGuides(guideList -> {
-            recentlyViewedGuidesRecycler.setAdapter(new GuideAdapter(guideList));
-        });
+        DbManager.getFeaturedGuides(guideList -> featuredGuidesRecycler.setAdapter(new GuideAdapter(guideList)));
+        DbManager.getRecentlyViewedGuides(guideList -> recentlyViewedGuidesRecycler.setAdapter(new GuideAdapter(guideList)));
     }
 
 

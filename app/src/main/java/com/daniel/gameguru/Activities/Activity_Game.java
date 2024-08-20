@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,8 +16,6 @@ import com.daniel.gameguru.Entities.Game;
 import com.daniel.gameguru.Entities.Guide;
 import com.daniel.gameguru.Adapters.GuideAdapter;
 import com.daniel.gameguru.R;
-import com.daniel.gameguru.Utilities.NavigationBarManager;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -30,13 +29,11 @@ public class Activity_Game extends AppCompatActivity {
     private AppCompatTextView gameTitle, gameDetails, gameDescription;
     private LinearLayoutCompat genresContainer;
     private RecyclerView guidesRecycler;
-    private BottomNavigationView bottomNavigationView;
 
     private GuideAdapter guideAdapter;
     private List<Guide> relatedGuides;
 
     private FirebaseFirestore db;
-    private String gameId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +41,15 @@ public class Activity_Game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         db = FirebaseFirestore.getInstance();
-        gameId = getIntent().getStringExtra("gameId");
+        String gameId = getIntent().getStringExtra("gameId");
 
         findViews();
-        NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
-        NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_account);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
+
         loadGameData(gameId);
     }
 
@@ -59,8 +60,6 @@ public class Activity_Game extends AppCompatActivity {
         gameDescription = findViewById(R.id.gameDescription);
         genresContainer = findViewById(R.id.genresContainer);
         guidesRecycler = findViewById(R.id.relatedGuidesRecyclerView);
-
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         relatedGuides = new ArrayList<>();
         guideAdapter = new GuideAdapter(relatedGuides);

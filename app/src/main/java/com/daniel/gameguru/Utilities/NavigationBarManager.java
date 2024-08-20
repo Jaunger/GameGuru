@@ -2,12 +2,15 @@ package com.daniel.gameguru.Utilities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.daniel.gameguru.Activities.Activity_CreateGuide;
+import com.daniel.gameguru.Activities.Activity_Following;
 import com.daniel.gameguru.Activities.Activity_Home;
 import com.daniel.gameguru.Activities.Activity_Profile;
 import com.daniel.gameguru.Activities.Activity_Search;
@@ -68,18 +71,19 @@ public class NavigationBarManager {
              else if (id == R.id.navigation_search) {
                 intent = new Intent(context, Activity_Search.class);
             } else if (id == R.id.navigation_notifications) {
-               // intent = new Intent(context, Ac.class);
-                return true;
+                intent = new Intent(context, Activity_Following.class);
             }if (id == R.id.navigation_create) {
                 intent = new Intent(context, Activity_CreateGuide.class);
             }
 
             if (intent != null) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    context.startActivity(intent);
+                context.startActivity(intent);
                 if (context instanceof AppCompatActivity) {
                     ((AppCompatActivity) context).finish();
                 }
+
+
             }
             return true;
         });

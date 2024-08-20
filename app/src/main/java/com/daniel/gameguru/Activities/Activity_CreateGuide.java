@@ -54,6 +54,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
     private MaterialButton mBold, mItalic, mUnderline, mInsertImage, mTextColor, mInsertLink, mUndo, mRedo;
     private MaterialButton mSaveAsDraftButton, mPublishButton, mAddImage;
     private BottomNavigationView bottomNavigationView;
+    private TextInputEditText guideTitleInput, categoryInput;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private AutoCompleteTextView gameNameInput;
@@ -61,6 +62,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
     private final String TAG = "Activity_CreateGuide";
     private Uri selectedImageUri;
     private int selectedImageWidth;
+    private boolean changedColor = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +123,8 @@ public class Activity_CreateGuide extends AppCompatActivity {
         mTextColor = findViewById(R.id.action_text_color);
         mAddImage = findViewById(R.id.addImageButton);
         gameNameInput = findViewById(R.id.gameNameInput);
+        guideTitleInput = findViewById(R.id.guideTitleInput);
+        categoryInput = findViewById(R.id.categoryInput);
 
     }
     private void setupAutoComplete() {
@@ -173,6 +177,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
         buttonListeners();
         setupRichEditor();
         setupAutoComplete();
+
 
     }
 
@@ -245,6 +250,10 @@ public class Activity_CreateGuide extends AppCompatActivity {
 
         // Handle the Submit button click
         submitButton.setOnClickListener(v -> {
+            if (linkTextInput.getText() == null || linkUrlInput.getText() == null) {
+                Toast.makeText(Activity_CreateGuide.this, "Please fill in both fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
             String linkText = linkTextInput.getText().toString().trim();
             String linkUrl = linkUrlInput.getText().toString().trim();
 
@@ -273,7 +282,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
                     if (type == 0){
                         selectedImageUri = uri1;
                 }else if(type == 1){
-                        int height = selectedImageWidth;
+                        int height = selectedImageWidth * 2;
                         mEditor.insertImage(uri1.toString(), "Image", selectedImageWidth,height);
                     }
                     Toast.makeText(Activity_CreateGuide.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
@@ -282,11 +291,29 @@ public class Activity_CreateGuide extends AppCompatActivity {
                 .addOnFailureListener(e -> Toast.makeText(Activity_CreateGuide.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
     private void buttonListeners() {
-        mBold.setOnClickListener(v -> mEditor.setBold());
-        mItalic.setOnClickListener(v -> mEditor.setItalic());
-        mUnderline.setOnClickListener(v -> mEditor.setUnderline());
+        mBold.setOnClickListener(v -> {
+            mEditor.setBold();
+            toggleButtonState(mBold);
+        });
+
+        mItalic.setOnClickListener(v -> {
+            mEditor.setItalic();
+            toggleButtonState(mItalic);
+        });
+
+        mUnderline.setOnClickListener(v -> {
+            mEditor.setUnderline();
+            toggleButtonState(mUnderline);
+        });
 
         mTextColor.setOnClickListener(v -> {
+            if(changedColor){
+                mEditor.setTextColor(Color.BLACK);
+                Toast.makeText(this, "Text color changed", Toast.LENGTH_SHORT).show();
+                changedColor = false;
+                return;
+            }
+            changedColor = true;
             mEditor.setTextColor(Color.RED); // Placeholder for color picker implementation
             Toast.makeText(this, "Text color changed", Toast.LENGTH_SHORT).show();
         });
@@ -303,10 +330,20 @@ public class Activity_CreateGuide extends AppCompatActivity {
         mPublishButton.setOnClickListener(v -> saveGuide(true));
     }
 
+    private void toggleButtonState(MaterialButton button) {
+        boolean isSelected = button.isSelected();
+        button.setSelected(!isSelected);
+        button.setAlpha(isSelected ? 1.0f : 0.5f); // Example: change opacity to show selection state
+    }
     private void saveGuide(boolean isPublished) {
-        String title = ((TextInputEditText) findViewById(R.id.guideTitleInput)).getText().toString();
+
+        if (guideTitleInput.getText() == null || categoryInput.getText() == null) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String title = guideTitleInput.getText().toString();
         String gameName = gameNameInput.getText().toString();
-        String category = ((TextInputEditText) findViewById(R.id.categoryInput)).getText().toString();
+        String category = categoryInput.getText().toString();
         String content = mEditor.getHtml();
 
 
@@ -330,7 +367,8 @@ public class Activity_CreateGuide extends AppCompatActivity {
                         guideData.put("gameName", gameName);
                         guideData.put("category", category);
                         guideData.put("content", content);
-                        guideData.put("authorId", mAuth.getCurrentUser().getUid());
+                        if(mAuth.getCurrentUser() != null)
+                            guideData.put("authorId", mAuth.getCurrentUser().getUid());
                         guideData.put("isPublished", isPublished);
                         guideData.put("timestamp", System.currentTimeMillis());
 

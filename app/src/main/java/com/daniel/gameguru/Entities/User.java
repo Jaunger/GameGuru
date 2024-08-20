@@ -10,6 +10,7 @@ public class User {
     private String email;
     private String description;
     private String image;
+    private HashMap<String, Integer> following;
     private Map<String, Integer> recentGuides = new HashMap<>();
 
     public User() {
@@ -84,5 +85,14 @@ public class User {
 
     public void addRecentlyViewedItem(String itemId, int timestamp) {
         this.recentGuides.put(itemId, timestamp);
+    }
+
+    public HashMap<String, Integer> getFollowing() {
+        return following;
+    }
+
+    public User setFollowing(HashMap<String, Integer> following) {
+        this.following = following;
+        return this;
     }
 }

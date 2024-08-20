@@ -20,7 +20,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_app"
-            android:contentDescription="Profile Picture"
+            android:contentDescription="@string/profile_picture"
             app:shapeAppearanceOverlay="@style/circleImageView"/>
 
         <!-- Edit Icon -->
@@ -33,7 +33,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_edit"
             app:tint="?attr/android:textColorPrimary"
-            android:contentDescription="Edit Profile"/>
+            android:contentDescription="@string/edit_profile"/>
     </RelativeLayout>
 
     <!-- User Name -->
@@ -43,73 +43,22 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
-        android:text="buh"
+        android:text="@string/buh"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="?attr/android:textColorPrimary"/>
 
-    <!-- Followers and Following -->
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/followButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/follow"
         android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        app:backgroundTint="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/followersCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="20K"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="?attr/android:textColorPrimary"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/followersLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Followers"
-                android:textSize="14sp"
-                android:textColor="?attr/android:textColorSecondary"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="16dp"
-            android:background="?attr/dividerColor"/>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/followingCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="350"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="?attr/android:textColorPrimary"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/followingLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Following"
-                android:textSize="14sp"
-                android:textColor="?attr/android:textColorSecondary"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <!-- Enlarged Description Section -->
     <com.google.android.material.card.MaterialCardView
@@ -125,7 +74,7 @@
             android:layout_height="wrap_content"
             android:background="#6D6D6D"
             android:padding="8dp"
-            android:text="This is a short description or bio for the user. It can include details about their interests, expertise, or any other relevant information."
+            android:text="@string/this_is_a_short_description_or_bio_for_the_user_it_can_include_details_about_their_interests_expertise_or_any_other_relevant_information"
             android:textSize="16sp"
             android:textColor="?attr/android:textColorPrimary"/> <!-- Ensuring the text color contrasts with the background -->
     </com.google.android.material.card.MaterialCardView>
@@ -136,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="My Guides"
+        android:text="@string/my_guides"
         android:textSize="18sp"
         android:textStyle="bold"
         android:padding="16dp"
@@ -156,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Log Out"
+        android:text="@string/log_out"
         android:layout_marginHorizontal="150dp"
         android:textColor="?attr/android:textColorPrimary"
         android:backgroundTint="@android:color/holo_orange_dark"

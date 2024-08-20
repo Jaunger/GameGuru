@@ -7,12 +7,14 @@
     android:id="@+id/searchParent"
     android:background="?attr/android:colorBackground">
 
+    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="32dp">
 
         <!-- Search Bar -->
         <com.google.android.material.textfield.TextInputLayout
@@ -24,26 +26,38 @@
                 android:id="@+id/search_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Search guides..."
+                android:backgroundTint="?attr/colorPrimary"
                 android:drawableStart="@drawable/ic_search"
+                android:hint="@string/search_guides"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:textColor="?attr/android:textColorPrimary"
-                android:backgroundTint="?attr/colorPrimary" />
+                android:textColor="?attr/android:textColorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Search Results -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_results_recycler"
+            android:id="@+id/search_games_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:scrollbars="vertical"
-            tools:listitem="@layout/item_guide"/>
+            tools:listitem="@layout/item_game" />
+        <!-- Search Results -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_guides_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/item_guide" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <!-- Bottom Navigation -->
-    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

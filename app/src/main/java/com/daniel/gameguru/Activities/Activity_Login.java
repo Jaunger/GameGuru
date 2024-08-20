@@ -1,6 +1,6 @@
 package com.daniel.gameguru.Activities;
 
-import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
+import static com.daniel.gameguru.Utilities.Utilities.hideKeyboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,7 +54,7 @@ public class Activity_Login extends AppCompatActivity {
         // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
-                hideSoftKeyboard(Activity_Login.this);
+                hideKeyboard(Activity_Login.this);
                 v.clearFocus();
                 v.performClick();
                 return false;
@@ -65,6 +65,10 @@ public class Activity_Login extends AppCompatActivity {
 
     private void initView() {
         loginButton.setOnClickListener(view -> {
+            if(loginEmail.getText() == null || loginPassword.getText() == null) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (loginEmail.getText().toString().isEmpty() || loginPassword.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;

@@ -28,9 +28,8 @@ public class Activity_Profile extends AppCompatActivity {
     private ShapeableImageView profileImage;
     private MaterialTextView userName;
     private MaterialTextView userDescription;
-    private GuideListFragment guideListFragment;
     private AppCompatImageButton editProfileButton;
-    private MaterialButton logoutButton;
+    private MaterialButton logoutButton, followButton;
     private FirebaseFirestore firestore;
     private String userUid;
 
@@ -43,21 +42,17 @@ public class Activity_Profile extends AppCompatActivity {
 
         firestore = FirebaseFirestore.getInstance();
         userUid = getIntent().getStringExtra("authorId");
-        Log.d("Activity_Profile_1", "Starting edit activity with authorId: " + userUid);
-
+        Log.d("Activity_Profile", "Starting profile activity with authorId: " + userUid);
 
         findViews();
         initViews();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         updateUI();
-
     }
-
 
     private void findViews() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -66,31 +61,39 @@ public class Activity_Profile extends AppCompatActivity {
         userDescription = findViewById(R.id.userDescription);
         editProfileButton = findViewById(R.id.editProfileButton);
         logoutButton = findViewById(R.id.logoutButton);
+        followButton = findViewById(R.id.followButton);
     }
 
     private void initViews() {
         NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_account);
-        guideListFragment = new GuideListFragment();
+        GuideListFragment guideListFragment = new GuideListFragment();
         guideListFragment.setAuthorId(userUid);
         getSupportFragmentManager().beginTransaction().replace(R.id.guideListFragment, guideListFragment).commit();
 
         logoutButton.setOnClickListener(v -> {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(Activity_Profile.this, Activity_Login.class);
-                    startActivity(intent);
-                    finish();
-                });
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(Activity_Profile.this, Activity_Login.class);
+            startActivity(intent);
+            finish();
+        });
 
-        DbManager.isCurrentUser(userUid,isCurrentUser -> {
-                if (isCurrentUser) {
+        DbManager.isCurrentUser(userUid, isCurrentUser -> {
+            if (isCurrentUser) {
                 editProfileButton.setVisibility(View.VISIBLE);
                 logoutButton.setVisibility(View.VISIBLE);
+                followButton.setVisibility(View.GONE);
             } else {
                 editProfileButton.setVisibility(View.GONE);
                 logoutButton.setVisibility(View.GONE);
+                followButton.setVisibility(View.VISIBLE);
+
+                DbManager.isFollowing(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow"));
+
+                followButton.setOnClickListener(v -> DbManager.toggleFollow(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow")));
             }
-                });
+        });
+
         editProfileButton.setOnClickListener(v -> {
             Intent intent = new Intent(Activity_Profile.this, Activity_EditProfile.class);
             startActivity(intent);
@@ -98,28 +101,28 @@ public class Activity_Profile extends AppCompatActivity {
     }
 
     private void updateUI() {
-        if(userUid == null)
-            if(FirebaseAuth.getInstance().getCurrentUser() != null)
+        if (userUid == null) {
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            else
+            } else {
                 return;
+            }
+        }
         DocumentReference userDocRef = firestore.collection("users").document(userUid);
 
         userDocRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                if (task.getResult() != null) {
-                    String imageUrl = task.getResult().getString("image");
-                    String name = task.getResult().getString("name");
-                    String description = task.getResult().getString("description");
-                    Glide.with(Activity_Profile.this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.img_white)
-                            .centerCrop()
-                            .into(profileImage);
+            if (task.isSuccessful() && task.getResult() != null) {
+                String imageUrl = task.getResult().getString("image");
+                String name = task.getResult().getString("name");
+                String description = task.getResult().getString("description");
+                Glide.with(Activity_Profile.this)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.img_white)
+                        .centerCrop()
+                        .into(profileImage);
 
-                    userName.setText(name);
-                    userDescription.setText(description);
-                }
+                userName.setText(name);
+                userDescription.setText(description);
             } else {
                 Log.d("FireStore", "Error getting documents: ", task.getException());
             }

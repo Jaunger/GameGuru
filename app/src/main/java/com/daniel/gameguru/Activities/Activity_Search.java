@@ -1,6 +1,6 @@
 package com.daniel.gameguru.Activities;
 
-import static com.daniel.gameguru.Utilities.Utilities.hideSoftKeyboard;
+import static com.daniel.gameguru.Utilities.Utilities.hideKeyboard;
 
 import android.os.Bundle;
 import android.view.View;
@@ -24,12 +24,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Activity_Search extends AppCompatActivity {
 
     private TextInputEditText searchInput;
-    private RecyclerView searchResultsRecycler;
+    private RecyclerView guideResultsRecycler, gameResultsRecycler;
     private List<Guide> guideResults;
     private GuideAdapter guideAdapter;
     private List<Game> gameResults;
@@ -51,7 +53,9 @@ public class Activity_Search extends AppCompatActivity {
 
     private void findViews() {
         searchInput = findViewById(R.id.search_input);
-        searchResultsRecycler = findViewById(R.id.search_results_recycler);
+        guideResultsRecycler = findViewById(R.id.search_guides_recycler);
+        gameResultsRecycler = findViewById(R.id.search_games_recycler);
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
     }
 
@@ -62,8 +66,11 @@ public class Activity_Search extends AppCompatActivity {
         guideAdapter = new GuideAdapter(guideResults);
         gameAdapter = new GameAdapter(gameResults);
 
-        searchResultsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        searchResultsRecycler.setAdapter(gameAdapter);
+        gameResultsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        gameResultsRecycler.setAdapter(gameAdapter);
+
+        guideResultsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        guideResultsRecycler.setAdapter(guideAdapter);
 
         NavigationBarManager.getInstance().setupBottomNavigationView(bottomNavigationView, this);
         NavigationBarManager.getInstance().setNavigation(bottomNavigationView, this, R.id.navigation_search);
@@ -82,13 +89,16 @@ public class Activity_Search extends AppCompatActivity {
     }
 
     private void searchGuides(@NonNull String query) {
-        guideResults.clear();
-        guideAdapter.notifyDataSetChanged(); // Notify that the dataset is cleared
 
+        guideResults.clear();
+        gameAdapter.notifyDataSetChanged();
         if (!query.isEmpty()) {
             DbManager.searchGuides(query, results -> {
                 if (results != null && !results.isEmpty()) {
-                    guideResults.addAll(results);
+                    Set<Guide> uniqueGuides = new HashSet<>(guideResults);
+                    uniqueGuides.addAll(results);
+                    guideResults.clear();
+                    guideResults.addAll(uniqueGuides);
                     guideAdapter.notifyItemRangeInserted(0, guideResults.size());
                 }
             });
@@ -97,22 +107,28 @@ public class Activity_Search extends AppCompatActivity {
 
     private void searchGames(@NonNull String query) {
         gameResults.clear();
-        gameAdapter.notifyDataSetChanged(); // Notify that the dataset is cleared
-
+        gameAdapter.notifyDataSetChanged();
         if (!query.isEmpty()) {
             DbManager.searchGames(query, results -> {
                 if (results != null && !results.isEmpty()) {
-                    gameResults.addAll(results);
+                    Set<Game> uniqueGames = new HashSet<>(gameResults);
+                    uniqueGames.addAll(results);
+                    gameResults.clear();
+                    gameResults.addAll(uniqueGames);
                     gameAdapter.notifyItemRangeInserted(0, gameResults.size());
+                }else{
+                    gameResultsRecycler.setVisibility(View.VISIBLE);
                 }
             });
+        }else{
+            gameResultsRecycler.setVisibility(View.GONE);
         }
     }
 
     public void setupUI(View view) {
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
-                hideSoftKeyboard(Activity_Search.this);
+                hideKeyboard(Activity_Search.this);
                 v.clearFocus();
                 v.performClick();
                 return false;
