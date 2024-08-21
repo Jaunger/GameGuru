@@ -90,7 +90,7 @@ public class Activity_Search extends AppCompatActivity {
     private void searchGuides(String query) {
 
         guideResults.clear();
-        guideAdapter.notifyItemRemoved(0);
+        gameAdapter.notifyDataSetChanged();
         if (!query.isEmpty()) {
             DbManager.searchGuides(query, results -> {
                 if (results != null && !results.isEmpty()) {
@@ -98,7 +98,7 @@ public class Activity_Search extends AppCompatActivity {
                     uniqueGuides.addAll(results);
                     guideResults.clear();
                     guideResults.addAll(uniqueGuides);
-                    guideAdapter.notifyItemRangeInserted(0, guideResults.size());
+                    gameAdapter.notifyDataSetChanged();
                 }
             });
         }
@@ -106,7 +106,7 @@ public class Activity_Search extends AppCompatActivity {
 
     private void searchGames(String query) {
         gameResults.clear();
-        gameAdapter.notifyItemRemoved(0);
+        gameAdapter.notifyDataSetChanged();
         if (!query.isEmpty()) {
             DbManager.searchGames(query, results -> {
                 if (results != null && !results.isEmpty()) {
@@ -114,11 +114,9 @@ public class Activity_Search extends AppCompatActivity {
                     uniqueGames.addAll(results);
                     gameResults.clear();
                     gameResults.addAll(uniqueGames);
-                    gameAdapter.notifyItemRangeInserted(0, gameResults.size());
+                    gameAdapter.notifyDataSetChanged();
                     gameResultsRecycler.setVisibility(View.VISIBLE);
 
-                }else{
-                    gameResultsRecycler.setVisibility(View.VISIBLE);
                 }
             });
         }else{
