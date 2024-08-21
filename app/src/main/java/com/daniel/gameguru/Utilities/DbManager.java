@@ -367,7 +367,7 @@ public class DbManager {
                 });
     }
 
-    public static void getGuidesByAuthor(String userUid, boolean onlyPublished, FireStoreCallback<List<Guide>> callback) {
+    public static void getGuidesByAuthor(String userUid,FireStoreCallback<List<Guide>> callback) {
         getFireStoreInstance().collection("guides")
                 .whereEqualTo("authorId", userUid)
                 .get()

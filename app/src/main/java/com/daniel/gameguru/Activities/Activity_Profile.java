@@ -125,7 +125,7 @@ public class Activity_Profile extends AppCompatActivity {
                         logoutButton.setVisibility(View.VISIBLE);
                         followButton.setVisibility(View.GONE);
                         myGuidesTitle.setText(String.format("%s","My Guides"));
-                        loadGuides(false);
+                        loadGuides();
                     } else {
                         editProfileButton.setVisibility(View.GONE);
                         logoutButton.setVisibility(View.GONE);
@@ -135,7 +135,7 @@ public class Activity_Profile extends AppCompatActivity {
                         DbManager.isFollowing(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow"));
 
                         followButton.setOnClickListener(v -> DbManager.toggleFollow(userUid, isFollowing -> followButton.setText(isFollowing ? "Unfollow" : "Follow")));
-                        loadGuides(true); 
+                        loadGuides();
                     }
                 });
             } else {
@@ -144,8 +144,8 @@ public class Activity_Profile extends AppCompatActivity {
         });
     }
 
-    private void loadGuides(boolean onlyPublished) {
-        DbManager.getGuidesByAuthor(userUid, onlyPublished, guides -> {
+    private void loadGuides() {
+        DbManager.getGuidesByAuthor(userUid, guides -> {
             if (guides != null) {
                 guideList.clear();
                 guideList.addAll(guides);

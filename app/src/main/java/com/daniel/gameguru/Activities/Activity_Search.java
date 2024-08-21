@@ -115,6 +115,8 @@ public class Activity_Search extends AppCompatActivity {
                     gameResults.clear();
                     gameResults.addAll(uniqueGames);
                     gameAdapter.notifyItemRangeInserted(0, gameResults.size());
+                    gameResultsRecycler.setVisibility(View.VISIBLE);
+
                 }else{
                     gameResultsRecycler.setVisibility(View.VISIBLE);
                 }
