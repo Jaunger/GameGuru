@@ -88,6 +88,7 @@ public class Activity_CreateGuide extends AppCompatActivity {
                     guideTitleInput.setText(guideData.getTitle());
                     gameNameInput.setText(guideData.getGameName());
                     mEditor.setHtml(guideData.getContent());
+                    gameNameInput.setEnabled(false);
                     if (guideData.getImageUrl() != null) {
                         selectedImageUri = Uri.parse(guideData.getImageUrl());
                     }
@@ -96,6 +97,8 @@ public class Activity_CreateGuide extends AppCompatActivity {
                 }
 
             });
+        }else {
+            gameNameInput.setEnabled(true);
         }
     }
 
