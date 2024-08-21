@@ -104,7 +104,8 @@ public class DbManager {
                             for (DocumentSnapshot document : snapshot.getDocuments()) {
                                 Guide guide = document.toObject(Guide.class);
                                 if (guide != null) {
-                                    results.add(guide);
+                                    if(guide.getIsPublished().equals("true"))
+                                        results.add(guide);
                                 }
                             }
                         }
